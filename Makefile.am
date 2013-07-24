@@ -4,7 +4,7 @@ ACLOCAL_AMFLAGS = -I m4
 AM_CFLAGS = -lm
 AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
 
-bin_PROGRAMS = valamathg valamathg.sh
+bin_PROGRAMS = valamathg
 noinst_LTLIBRARIES = libvalamathg.la
 
 libvalamathg_la_SOURCES = Elmnt.vala MyTimer.vala Operate.vala EventCog.vala MathCog.vala NumberUtils.vala
