@@ -1,0 +1,17 @@
+Valamathg is run with commad line parameters.
+
+For example "8 1 10 + 5 20 .05".
+
+8 means what base to count with (2 to 36 supported).
+
+the "8" is parsed using base 10. The rest of the args are parsed using base 8 (Except for type).
+
+1 is the minimum generated number and 10 is the maximum generated number exclusive.
+
++ is the type of arithmetic problems that will be genereted (+-x/ supported).
+
+5 is the amount of numbers per question.
+
+20 is the amount of questions.
+
+.05 is the highest accepted relative error for auto answer.
