@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([valamathg],[1.0],[mattiasmun@gmail.com],[https://github.com/mattiasmun/valamathg])
+AC_INIT([valamathg],[1.0],[https://github.com/mattiasmun/valamathg])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 AC_CONFIG_FILES([Makefile])

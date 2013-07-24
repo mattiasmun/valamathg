@@ -1,4 +1,4 @@
-EXTRA_DIST = autogen.sh
+EXTRA_DIST = autogen.sh valamathg.sh valamathg.vapi
 AM_CPPFLAGS = $(VALAMATHG_CFLAGS)
 ACLOCAL_AMFLAGS = -I m4
 AM_CFLAGS = -lm
