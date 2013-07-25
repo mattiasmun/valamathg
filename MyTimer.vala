@@ -28,7 +28,7 @@ namespace mathg {
 			start = stop = new DateTime.now_local();
 		}
 
-		internal string to_string() {
+		public string to_string() {
 			stop = new DateTime.now_local();
 			var s = @"$((stop.difference(start) + 500L)/1000L)";
 			start = reset ? stop: start;

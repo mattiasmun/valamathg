@@ -30,7 +30,7 @@ namespace mathg {
 			question = s;
 		}
 
-		internal string to_string() {
+		public string to_string() {
 			return question + guess + result;
 		}
 	}

@@ -55,6 +55,7 @@ typedef struct _mathgMyTimer mathgMyTimer;
 #define MATHG_TYPE_ELMNT (mathg_elmnt_get_type ())
 typedef struct _mathgElmnt mathgElmnt;
 typedef struct _mathgMathCog mathgMathCog;
+#define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 #define _g_free0(var) (var = (g_free (var), NULL))
 
 struct _mathgEventCog {
@@ -147,9 +148,9 @@ void mathg_math_cog_destroy (mathgMathCog* self);
 enum  {
 	MATHG_EVENT_COG_DUMMY_PROPERTY
 };
-mathgEventCog* mathg_event_cog_new (GtkGrid* g, mathgMathCog* mc, GtkLabel** lb, int lb_length1);
-mathgEventCog* mathg_event_cog_construct (GType object_type, GtkGrid* g, mathgMathCog* mc, GtkLabel** lb, int lb_length1);
-static GtkLabel** _vala_array_dup1 (GtkLabel** self, int length);
+mathgEventCog* mathg_event_cog_new (gchar** args, int args_length1);
+mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1);
+void mathg_math_cog_init (mathgMathCog *self, gchar** args, int args_length1);
 static void mathg_event_cog_caseixy (mathgEventCog* self, gint i);
 gchar* mathg_elmnt_to_string (mathgElmnt *self);
 static gboolean mathg_event_cog_is_ctrl (mathgEventCog* self);
@@ -167,58 +168,94 @@ static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify 
 
 const gchar* MATHG_sa[4] = {"xx-large", "x-large", "large", "medium"};
 
-static gpointer _g_object_ref0 (gpointer self) {
-	return self ? g_object_ref (self) : NULL;
-}
-
-
-static GtkLabel** _vala_array_dup1 (GtkLabel** self, int length) {
-	GtkLabel** result;
-	int i;
-	result = g_new0 (GtkLabel*, length + 1);
-	for (i = 0; i < length; i++) {
-		GtkLabel* _tmp0_;
-		_tmp0_ = _g_object_ref0 (self[i]);
-		result[i] = _tmp0_;
-	}
-	return result;
-}
-
-
-mathgEventCog* mathg_event_cog_construct (GType object_type, GtkGrid* g, mathgMathCog* mc, GtkLabel** lb, int lb_length1) {
+mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1) {
 	mathgEventCog * self = NULL;
 	GtkGrid* _tmp0_;
-	mathgMathCog _tmp1_;
-	mathgMathCog _tmp2_ = {0};
-	GtkLabel** _tmp3_;
-	gint _tmp3__length1;
-	GtkLabel** _tmp4_;
-	gint _tmp4__length1;
-	g_return_val_if_fail (g != NULL, NULL);
-	g_return_val_if_fail (mc != NULL, NULL);
+	GtkGrid* g;
+	GtkLabel** _tmp1_ = NULL;
+	GtkGrid* _tmp18_;
+	gchar** _tmp19_;
+	gint _tmp19__length1;
 	self = (mathgEventCog*) g_object_new (object_type, NULL);
-	_tmp0_ = g;
-	gtk_container_add ((GtkContainer*) self, (GtkWidget*) _tmp0_);
-	_tmp1_ = *mc;
-	mathg_math_cog_copy (&_tmp1_, &_tmp2_);
-	mathg_math_cog_destroy (&self->priv->mc);
-	self->priv->mc = _tmp2_;
-	_tmp3_ = lb;
-	_tmp3__length1 = lb_length1;
-	_tmp4_ = (_tmp3_ != NULL) ? _vala_array_dup1 (_tmp3_, _tmp3__length1) : ((gpointer) _tmp3_);
-	_tmp4__length1 = _tmp3__length1;
+	_tmp0_ = (GtkGrid*) gtk_grid_new ();
+	g_object_ref_sink (_tmp0_);
+	g = _tmp0_;
+	_tmp1_ = g_new0 (GtkLabel*, 8 + 1);
 	self->priv->lb = (_vala_array_free (self->priv->lb, self->priv->lb_length1, (GDestroyNotify) g_object_unref), NULL);
-	self->priv->lb = _tmp4_;
-	self->priv->lb_length1 = _tmp4__length1;
+	self->priv->lb = _tmp1_;
+	self->priv->lb_length1 = 8;
 	self->priv->_lb_size_ = self->priv->lb_length1;
+	{
+		gint i;
+		i = 0;
+		{
+			gboolean _tmp2_;
+			_tmp2_ = TRUE;
+			while (TRUE) {
+				gboolean _tmp3_;
+				gint _tmp5_;
+				GtkLabel** _tmp6_;
+				gint _tmp6__length1;
+				gint _tmp7_;
+				gint _tmp8_;
+				gchar* _tmp9_ = NULL;
+				gchar* _tmp10_;
+				GtkLabel* _tmp11_;
+				GtkLabel* _tmp12_;
+				GtkGrid* _tmp13_;
+				GtkLabel** _tmp14_;
+				gint _tmp14__length1;
+				gint _tmp15_;
+				GtkLabel* _tmp16_;
+				gint _tmp17_;
+				_tmp3_ = _tmp2_;
+				if (!_tmp3_) {
+					gint _tmp4_;
+					_tmp4_ = i;
+					i = _tmp4_ + 1;
+				}
+				_tmp2_ = FALSE;
+				_tmp5_ = i;
+				if (!(_tmp5_ < 8)) {
+					break;
+				}
+				_tmp6_ = self->priv->lb;
+				_tmp6__length1 = self->priv->lb_length1;
+				_tmp7_ = i;
+				_tmp8_ = i;
+				_tmp9_ = g_strdup_printf ("%i", _tmp8_);
+				_tmp10_ = _tmp9_;
+				_tmp11_ = (GtkLabel*) gtk_label_new (_tmp10_);
+				g_object_ref_sink (_tmp11_);
+				_g_object_unref0 (_tmp6_[_tmp7_]);
+				_tmp6_[_tmp7_] = _tmp11_;
+				_tmp12_ = _tmp6_[_tmp7_];
+				_g_free0 (_tmp10_);
+				_tmp13_ = g;
+				_tmp14_ = self->priv->lb;
+				_tmp14__length1 = self->priv->lb_length1;
+				_tmp15_ = i;
+				_tmp16_ = _tmp14_[_tmp15_];
+				_tmp17_ = i;
+				gtk_grid_attach (_tmp13_, (GtkWidget*) _tmp16_, 1, _tmp17_, 1, 1);
+			}
+		}
+	}
+	_tmp18_ = g;
+	gtk_container_add ((GtkContainer*) self, (GtkWidget*) _tmp18_);
+	_tmp19_ = args;
+	_tmp19__length1 = args_length1;
+	mathg_math_cog_destroy (&self->priv->mc);
+	mathg_math_cog_init (&self->priv->mc, _tmp19_, _tmp19__length1);
 	g_object_set ((GtkWidget*) self, "can-focus", TRUE, NULL);
 	gtk_widget_grab_focus ((GtkWidget*) self);
+	_g_object_unref0 (g);
 	return self;
 }
 
 
-mathgEventCog* mathg_event_cog_new (GtkGrid* g, mathgMathCog* mc, GtkLabel** lb, int lb_length1) {
-	return mathg_event_cog_construct (MATHG_TYPE_EVENT_COG, g, mc, lb, lb_length1);
+mathgEventCog* mathg_event_cog_new (gchar** args, int args_length1) {
+	return mathg_event_cog_construct (MATHG_TYPE_EVENT_COG, args, args_length1);
 }
 
 

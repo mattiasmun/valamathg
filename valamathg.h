@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <float.h>
 #include <math.h>
 
@@ -33,6 +34,9 @@ typedef struct _mathgOperate mathgOperate;
 typedef struct _mathgEventCog mathgEventCog;
 typedef struct _mathgEventCogClass mathgEventCogClass;
 typedef struct _mathgEventCogPrivate mathgEventCogPrivate;
+
+#define MATHG_TYPE_CONF_FILE (mathg_conf_file_get_type ())
+typedef struct _mathgConfFile mathgConfFile;
 
 #define MATHG_TYPE_MATH_COG (mathg_math_cog_get_type ())
 
@@ -69,6 +73,9 @@ struct _mathgEventCogClass {
 	GtkViewportClass parent_class;
 };
 
+struct _mathgConfFile {
+};
+
 struct _mathgNumberUtils {
 	guint bas;
 };
@@ -97,12 +104,14 @@ void mathg_elmnt_free (mathgElmnt* self);
 void mathg_elmnt_copy (const mathgElmnt* self, mathgElmnt* dest);
 void mathg_elmnt_destroy (mathgElmnt* self);
 void mathg_elmnt_init (mathgElmnt *self, gint64 a, const gchar* s);
+gchar* mathg_elmnt_to_string (mathgElmnt *self);
 GType mathg_my_timer_get_type (void) G_GNUC_CONST;
 mathgMyTimer* mathg_my_timer_dup (const mathgMyTimer* self);
 void mathg_my_timer_free (mathgMyTimer* self);
 void mathg_my_timer_copy (const mathgMyTimer* self, mathgMyTimer* dest);
 void mathg_my_timer_destroy (mathgMyTimer* self);
 void mathg_my_timer_init (mathgMyTimer *self, gboolean b);
+gchar* mathg_my_timer_to_string (mathgMyTimer *self);
 GType mathg_operate_get_type (void) G_GNUC_CONST;
 mathgOperate* mathg_operate_dup (const mathgOperate* self);
 void mathg_operate_free (mathgOperate* self);
@@ -110,6 +119,16 @@ void mathg_operate_copy (const mathgOperate* self, mathgOperate* dest);
 void mathg_operate_destroy (mathgOperate* self);
 void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c, gint d);
 GType mathg_event_cog_get_type (void) G_GNUC_CONST;
+mathgEventCog* mathg_event_cog_new (gchar** args, int args_length1);
+mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1);
+void mathg_event_cog_repaint (mathgEventCog* self);
+GType mathg_conf_file_get_type (void) G_GNUC_CONST;
+mathgConfFile* mathg_conf_file_dup (const mathgConfFile* self);
+void mathg_conf_file_free (mathgConfFile* self);
+extern GFile* mathg_conf_file__f;
+GFile* mathg_conf_file_cfgfile (void);
+void mathg_conf_file_chkdir (GFile* f);
+gchar** mathg_conf_file_getdata (GFile* f, int* result_length1);
 GType mathg_math_cog_get_type (void) G_GNUC_CONST;
 GType mathg_number_utils_get_type (void) G_GNUC_CONST;
 mathgNumberUtils* mathg_number_utils_dup (const mathgNumberUtils* self);
@@ -118,9 +137,6 @@ mathgMathCog* mathg_math_cog_dup (const mathgMathCog* self);
 void mathg_math_cog_free (mathgMathCog* self);
 void mathg_math_cog_copy (const mathgMathCog* self, mathgMathCog* dest);
 void mathg_math_cog_destroy (mathgMathCog* self);
-mathgEventCog* mathg_event_cog_new (GtkGrid* g, mathgMathCog* mc, GtkLabel** lb, int lb_length1);
-mathgEventCog* mathg_event_cog_construct (GType object_type, GtkGrid* g, mathgMathCog* mc, GtkLabel** lb, int lb_length1);
-void mathg_event_cog_repaint (mathgEventCog* self);
 void mathg_math_cog_init (mathgMathCog *self, gchar** args, int args_length1);
 void mathg_number_utils_init (mathgNumberUtils *self, const gchar* s);
 

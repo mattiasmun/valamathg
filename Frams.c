@@ -24,112 +24,56 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 #include <glib-object.h>
 #include <stdlib.h>
 #include <string.h>
+#include "valamathg.h"
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
-#include "valamathg.h"
 
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
-#define _g_free0(var) (var = (g_free (var), NULL))
 
 
 
 void _vala_main (gchar** args, int args_length1);
-static gchar** _vala_array_dup1 (gchar** self, int length);
 void frame (GtkWindow* gw, gchar** args, int args_length1);
 static void _gtk_main_quit_gtk_widget_destroy (GtkWidget* _sender, gpointer self);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
 
-static gchar** _vala_array_dup1 (gchar** self, int length) {
-	gchar** result;
-	int i;
-	result = g_new0 (gchar*, length + 1);
-	for (i = 0; i < length; i++) {
-		gchar* _tmp0_;
-		_tmp0_ = g_strdup (self[i]);
-		result[i] = _tmp0_;
-	}
-	return result;
-}
-
-
 void _vala_main (gchar** args, int args_length1) {
-	gchar** _tmp0_;
-	gint _tmp0__length1;
-	gchar** _tmp1_;
-	gint _tmp1__length1;
-	GtkWindow* _tmp2_;
-	GtkWindow* gw;
+	GFile* _tmp0_ = NULL;
+	GFile* _tmp1_;
+	gint _tmp2_ = 0;
 	gchar** _tmp3_ = NULL;
-	gint _tmp3__length1 = 0;
-	gint __tmp3__size_ = 0;
 	gchar** _tmp4_;
 	gint _tmp4__length1;
-	GtkWindow* _tmp15_;
-	gchar** _tmp16_;
-	gint _tmp16__length1;
-	_tmp0_ = args;
-	_tmp0__length1 = args_length1;
-	_tmp1_ = args;
-	_tmp1__length1 = args_length1;
-	args = _tmp0_ + 1;
-	args_length1 = _tmp1__length1 - 1;
+	gchar** data;
+	gint data_length1;
+	gint _data_size_;
+	GtkWindow* _tmp5_;
+	GtkWindow* gw;
+	gchar** _tmp6_;
+	gint _tmp6__length1;
+	_tmp0_ = mathg_conf_file_cfgfile ();
+	_tmp1_ = _tmp0_;
+	_tmp3_ = mathg_conf_file_getdata (_tmp1_, &_tmp2_);
+	_tmp4_ = _tmp3_;
+	_tmp4__length1 = _tmp2_;
+	_g_object_unref0 (_tmp1_);
+	data = _tmp4_;
+	data_length1 = _tmp4__length1;
+	_data_size_ = data_length1;
+	args = data;
+	args_length1 = data_length1;
 	gtk_init (&args_length1, &args);
-	_tmp2_ = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	g_object_ref_sink (_tmp2_);
-	gw = _tmp2_;
-	_tmp4_ = args;
-	_tmp4__length1 = args_length1;
-	if (_tmp4__length1 != 7) {
-		gchar* _tmp5_;
-		gchar* _tmp6_;
-		gchar* _tmp7_;
-		gchar* _tmp8_;
-		gchar* _tmp9_;
-		gchar* _tmp10_;
-		gchar* _tmp11_;
-		gchar** _tmp12_ = NULL;
-		_tmp5_ = g_strdup ("8");
-		_tmp6_ = g_strdup ("10");
-		_tmp7_ = g_strdup ("100");
-		_tmp8_ = g_strdup ("+");
-		_tmp9_ = g_strdup ("5");
-		_tmp10_ = g_strdup ("20");
-		_tmp11_ = g_strdup (".05");
-		_tmp12_ = g_new0 (gchar*, 7 + 1);
-		_tmp12_[0] = _tmp5_;
-		_tmp12_[1] = _tmp6_;
-		_tmp12_[2] = _tmp7_;
-		_tmp12_[3] = _tmp8_;
-		_tmp12_[4] = _tmp9_;
-		_tmp12_[5] = _tmp10_;
-		_tmp12_[6] = _tmp11_;
-		_tmp3_ = (_vala_array_free (_tmp3_, _tmp3__length1, (GDestroyNotify) g_free), NULL);
-		_tmp3_ = _tmp12_;
-		_tmp3__length1 = 7;
-		__tmp3__size_ = _tmp3__length1;
-	} else {
-		gchar** _tmp13_;
-		gint _tmp13__length1;
-		gchar** _tmp14_;
-		gint _tmp14__length1;
-		_tmp13_ = args;
-		_tmp13__length1 = args_length1;
-		_tmp14_ = (_tmp13_ != NULL) ? _vala_array_dup1 (_tmp13_, _tmp13__length1) : ((gpointer) _tmp13_);
-		_tmp14__length1 = _tmp13__length1;
-		_tmp3_ = (_vala_array_free (_tmp3_, _tmp3__length1, (GDestroyNotify) g_free), NULL);
-		_tmp3_ = _tmp14_;
-		_tmp3__length1 = _tmp14__length1;
-		__tmp3__size_ = _tmp3__length1;
-	}
-	_tmp15_ = gw;
-	_tmp16_ = _tmp3_;
-	_tmp16__length1 = _tmp3__length1;
-	frame (_tmp15_, _tmp16_, _tmp16__length1);
+	_tmp5_ = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	g_object_ref_sink (_tmp5_);
+	gw = _tmp5_;
+	_tmp6_ = args;
+	_tmp6__length1 = args_length1;
+	frame (gw, _tmp6_, _tmp6__length1);
 	gtk_main ();
-	_tmp3_ = (_vala_array_free (_tmp3_, _tmp3__length1, (GDestroyNotify) g_free), NULL);
 	_g_object_unref0 (gw);
+	data = (_vala_array_free (data, data_length1, (GDestroyNotify) g_free), NULL);
 }
 
 
@@ -147,116 +91,34 @@ static void _gtk_main_quit_gtk_widget_destroy (GtkWidget* _sender, gpointer self
 
 void frame (GtkWindow* gw, gchar** args, int args_length1) {
 	GtkWindow* _tmp0_;
-	GtkGrid* _tmp1_;
-	GtkGrid* g;
-	GtkWindow* _tmp2_;
-	gint _tmp3_ = 0;
-	GtkLabel** _tmp4_ = NULL;
-	GtkLabel** lb;
-	gint lb_length1;
-	gint _lb_size_;
-	GtkWindow* _tmp21_;
-	gchar** _tmp22_;
-	gint _tmp22__length1;
-	mathgMathCog mc = {0};
-	GtkGrid* _tmp23_;
-	mathgMathCog _tmp24_;
-	GtkLabel** _tmp25_;
-	gint _tmp25__length1;
-	mathgEventCog* _tmp26_;
+	GtkWindow* _tmp1_;
+	gint _tmp2_ = 0;
+	GtkWindow* _tmp3_;
+	gchar** _tmp4_;
+	gint _tmp4__length1;
+	mathgEventCog* _tmp5_;
 	mathgEventCog* ec;
-	GtkWindow* _tmp27_;
-	GtkWindow* _tmp28_;
+	GtkWindow* _tmp6_;
+	GtkWindow* _tmp7_;
 	g_return_if_fail (gw != NULL);
 	_tmp0_ = gw;
 	gtk_window_set_title (_tmp0_, "valamathg");
-	_tmp1_ = (GtkGrid*) gtk_grid_new ();
-	g_object_ref_sink (_tmp1_);
-	g = _tmp1_;
-	_tmp2_ = gw;
-	_tmp3_ = gdk_screen_width ();
-	gtk_window_set_default_size (_tmp2_, _tmp3_, 206);
-	_tmp4_ = g_new0 (GtkLabel*, 8 + 1);
-	lb = _tmp4_;
-	lb_length1 = 8;
-	_lb_size_ = lb_length1;
-	{
-		gint i;
-		i = 0;
-		{
-			gboolean _tmp5_;
-			_tmp5_ = TRUE;
-			while (TRUE) {
-				gboolean _tmp6_;
-				gint _tmp8_;
-				GtkLabel** _tmp9_;
-				gint _tmp9__length1;
-				gint _tmp10_;
-				gint _tmp11_;
-				gchar* _tmp12_ = NULL;
-				gchar* _tmp13_;
-				GtkLabel* _tmp14_;
-				GtkLabel* _tmp15_;
-				GtkGrid* _tmp16_;
-				GtkLabel** _tmp17_;
-				gint _tmp17__length1;
-				gint _tmp18_;
-				GtkLabel* _tmp19_;
-				gint _tmp20_;
-				_tmp6_ = _tmp5_;
-				if (!_tmp6_) {
-					gint _tmp7_;
-					_tmp7_ = i;
-					i = _tmp7_ + 1;
-				}
-				_tmp5_ = FALSE;
-				_tmp8_ = i;
-				if (!(_tmp8_ < 8)) {
-					break;
-				}
-				_tmp9_ = lb;
-				_tmp9__length1 = lb_length1;
-				_tmp10_ = i;
-				_tmp11_ = i;
-				_tmp12_ = g_strdup_printf ("%i", _tmp11_);
-				_tmp13_ = _tmp12_;
-				_tmp14_ = (GtkLabel*) gtk_label_new (_tmp13_);
-				g_object_ref_sink (_tmp14_);
-				_g_object_unref0 (_tmp9_[_tmp10_]);
-				_tmp9_[_tmp10_] = _tmp14_;
-				_tmp15_ = _tmp9_[_tmp10_];
-				_g_free0 (_tmp13_);
-				_tmp16_ = g;
-				_tmp17_ = lb;
-				_tmp17__length1 = lb_length1;
-				_tmp18_ = i;
-				_tmp19_ = _tmp17_[_tmp18_];
-				_tmp20_ = i;
-				gtk_grid_attach (_tmp16_, (GtkWidget*) _tmp19_, 1, _tmp20_, 1, 1);
-			}
-		}
-	}
-	_tmp21_ = gw;
-	g_signal_connect ((GtkWidget*) _tmp21_, "destroy", (GCallback) _gtk_main_quit_gtk_widget_destroy, NULL);
-	_tmp22_ = args;
-	_tmp22__length1 = args_length1;
-	mathg_math_cog_init (&mc, _tmp22_, _tmp22__length1);
-	_tmp23_ = g;
-	_tmp24_ = mc;
-	_tmp25_ = lb;
-	_tmp25__length1 = lb_length1;
-	_tmp26_ = mathg_event_cog_new (_tmp23_, &_tmp24_, _tmp25_, _tmp25__length1);
-	g_object_ref_sink (_tmp26_);
-	ec = _tmp26_;
-	_tmp27_ = gw;
-	gtk_container_add ((GtkContainer*) _tmp27_, (GtkWidget*) ec);
-	_tmp28_ = gw;
-	gtk_widget_show_all ((GtkWidget*) _tmp28_);
+	_tmp1_ = gw;
+	_tmp2_ = gdk_screen_width ();
+	gtk_window_set_default_size (_tmp1_, _tmp2_, 206);
+	_tmp3_ = gw;
+	g_signal_connect ((GtkWidget*) _tmp3_, "destroy", (GCallback) _gtk_main_quit_gtk_widget_destroy, NULL);
+	_tmp4_ = args;
+	_tmp4__length1 = args_length1;
+	_tmp5_ = mathg_event_cog_new (_tmp4_, _tmp4__length1);
+	g_object_ref_sink (_tmp5_);
+	ec = _tmp5_;
+	_tmp6_ = gw;
+	gtk_container_add ((GtkContainer*) _tmp6_, (GtkWidget*) ec);
+	_tmp7_ = gw;
+	gtk_widget_show_all ((GtkWidget*) _tmp7_);
 	mathg_event_cog_repaint (ec);
 	_g_object_unref0 (ec);
-	mathg_math_cog_destroy (&mc);
-	lb = (_vala_array_free (lb, lb_length1, (GDestroyNotify) g_object_unref), NULL);
-	_g_object_unref0 (g);
 }
 
 

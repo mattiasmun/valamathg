@@ -127,7 +127,7 @@ gchar* mathg_my_timer_to_string (mathgMyTimer *self);
 void mathg_my_timer_init (mathgMyTimer *self, gboolean b);
 void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i);
 void mathg_math_cog_put (mathgMathCog *self);
-static mathgElmnt* _vala_array_dup2 (mathgElmnt* self, int length);
+static mathgElmnt* _vala_array_dup1 (mathgElmnt* self, int length);
 
 
 static void _vala_mathgElmnt_array_free (mathgElmnt* array, gint array_length) {
@@ -733,7 +733,7 @@ void mathg_math_cog_put (mathgMathCog *self) {
 }
 
 
-static mathgElmnt* _vala_array_dup2 (mathgElmnt* self, int length) {
+static mathgElmnt* _vala_array_dup1 (mathgElmnt* self, int length) {
 	mathgElmnt* result;
 	int i;
 	result = g_new0 (mathgElmnt, length);
@@ -798,7 +798,7 @@ void mathg_math_cog_copy (const mathgMathCog* self, mathgMathCog* dest) {
 	(*dest).res = _tmp13_;
 	_tmp14_ = (*self).stra;
 	_tmp14__length1 = (*self).stra_length1;
-	_tmp15_ = (_tmp14_ != NULL) ? _vala_array_dup2 (_tmp14_, _tmp14__length1) : ((gpointer) _tmp14_);
+	_tmp15_ = (_tmp14_ != NULL) ? _vala_array_dup1 (_tmp14_, _tmp14__length1) : ((gpointer) _tmp14_);
 	_tmp15__length1 = _tmp14__length1;
 	(*dest).stra = (_vala_mathgElmnt_array_free ((*dest).stra, (*dest).stra_length1), NULL);
 	(*dest).stra = _tmp15_;

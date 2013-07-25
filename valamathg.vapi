@@ -3,8 +3,15 @@
 namespace mathg {
 	[CCode (cheader_filename = "valamathg.h")]
 	public class EventCog : Gtk.Viewport {
-		public EventCog (Gtk.Grid g, mathg.MathCog mc, Gtk.Label[] lb);
+		public EventCog (string[] args);
 		public void repaint ();
+	}
+	[CCode (cheader_filename = "valamathg.h")]
+	public struct ConfFile {
+		public static GLib.File _f;
+		public static GLib.File cfgfile ();
+		public static void chkdir (GLib.File f);
+		public static string[] getdata (GLib.File f = cfgfile ());
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct Elmnt {
@@ -13,6 +20,7 @@ namespace mathg {
 		public string question;
 		public string result;
 		public Elmnt (int64 a, string s);
+		public string to_string ();
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct MathCog {
@@ -37,6 +45,7 @@ namespace mathg {
 		public GLib.DateTime start;
 		public GLib.DateTime stop;
 		public MyTimer (bool b);
+		public string to_string ();
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct NumberUtils {

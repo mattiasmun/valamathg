@@ -28,10 +28,15 @@ namespace mathg {
 		uint kod;
 		Label[] lb;
 
-		public EventCog(Grid g, MathCog mc, Label[] lb) {
+		public EventCog(string[] args) {
+			Grid g = new Grid();
+			lb = new Label[8];
+			for(int i = 0; i < 8; i++) {
+				lb[i] = new Label(@"$i");
+				g.attach(lb[i], 1, i, 1, 1);
+			}
 			add(g);
-			this.mc = mc;
-			this.lb = lb;
+			mc = MathCog(args);
 			can_focus = true;
 			grab_focus();
 		}
