@@ -214,6 +214,7 @@ gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* resu
 	gint _tmp12__length1;
 	GError * _inner_error_ = NULL;
 	g_return_val_if_fail (s != NULL, NULL);
+	mathg_conf_file_mkdir (&(*self));
 	{
 		GFile* _tmp0_;
 		GFileOutputStream* _tmp1_ = NULL;
@@ -223,7 +224,6 @@ gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* resu
 		GDataOutputStream* data_stream;
 		GDataOutputStream* _tmp4_;
 		const gchar* _tmp5_;
-		mathg_conf_file_mkdir (&(*self));
 		_tmp0_ = (*self).f;
 		_tmp1_ = g_file_create (_tmp0_, G_FILE_CREATE_NONE, NULL, &_inner_error_);
 		file_stream = _tmp1_;

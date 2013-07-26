@@ -47,8 +47,8 @@ namespace mathg {
 		}
 		
 		public string[] trywrite(string s = "10 1 10 +/ 2 20 .01") {
+			mkdir();
 			try {
-				mkdir();
 				var file_stream = f.create(FileCreateFlags.NONE);
 				var data_stream = new DataOutputStream(file_stream);
 				data_stream.put_string(s);
