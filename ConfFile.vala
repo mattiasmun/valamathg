@@ -34,7 +34,7 @@ namespace mathg {
 				stderr.printf ("%s\n", e.message);
 			}
 		}
-		
+
 		public string[] tryread() {
 			try {
 				var data_stream = new DataInputStream(f.read());
@@ -45,7 +45,7 @@ namespace mathg {
 				return trywrite();
 			}
 		}
-		
+
 		public string[] trywrite(string s = "10 1 10 +/ 2 20 .01") {
 			mkdir();
 			try {
