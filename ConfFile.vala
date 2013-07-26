@@ -19,42 +19,39 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace mathg {
 	public struct ConfFile {
-		static File _f;
+		File f;
 
-		public static File cfgfile() {
-			if(_f == null) {
-				string s = Environment.get_user_config_dir();
-				s += "/valamathg/valamathg.conf";
-				_f = File.new_for_path(s);
-				chkdir(_f);
-			}
-			return _f;
+		public ConfFile() {
+			string s = Environment.get_user_config_dir();
+			s += "/valamathg/valamathg.conf";
+			f = File.new_for_path(s);
 		}
 
-		public static void chkdir(File f) {
+		void mkdir() {
 			try {
-				if(!f.get_parent().query_exists()){
-					f.get_parent().make_directory_with_parents();
-				}
+				f.get_parent().make_directory_with_parents();
 			} catch(Error e) {
 				stderr.printf ("%s\n", e.message);
 			}
 		}
-
-		public static string[] getdata(File f = cfgfile()) {
-			string s = "";
+		
+		public string[] tryread() {
 			try {
-				// Test for the existence of file
-				if (f.query_exists ()) {
-					var data_stream = new DataInputStream(f.read());
-					size_t st;
-					s = data_stream.read_line_utf8(out st);
-				} else {
-					// Create a new file with its name and write text data to it
-					var data_stream = new DataOutputStream(f.create(FileCreateFlags.NONE));
-					s = "10 1 10 +/ 2 20 .01";
-					data_stream.put_string(s);
-				}
+				var data_stream = new DataInputStream(f.read());
+				size_t st;
+				return data_stream.read_line_utf8(out st).split(" ");
+			} catch(Error e) {
+				stderr.printf ("%s\n", e.message);
+				return trywrite();
+			}
+		}
+		
+		public string[] trywrite(string s = "10 1 10 +/ 2 20 .01") {
+			try {
+				mkdir();
+				var file_stream = f.create(FileCreateFlags.NONE);
+				var data_stream = new DataOutputStream(file_stream);
+				data_stream.put_string(s);
 			} catch(Error e) {
 				stderr.printf ("%s\n", e.message);
 			}

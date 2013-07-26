@@ -200,7 +200,7 @@ void mathg_math_cog_init (mathgMathCog *self, gchar** args, int args_length1) {
 	_tmp15__length1 = args_length1;
 	_tmp16_ = _tmp15_[5];
 	_tmp17_ = mathg_number_utils_ti (&(*self).nu, _tmp16_);
-	if (_tmp17_ > 4) {
+	if (_tmp17_ > 1) {
 		gchar** _tmp18_;
 		gint _tmp18__length1;
 		const gchar* _tmp19_;
@@ -211,7 +211,7 @@ void mathg_math_cog_init (mathgMathCog *self, gchar** args, int args_length1) {
 		_tmp20_ = mathg_number_utils_ti (&(*self).nu, _tmp19_);
 		_tmp14_ = _tmp20_;
 	} else {
-		_tmp14_ = 4;
+		_tmp14_ = 1;
 	}
 	_tmp21_ = _tmp14_;
 	_tmp22_ = g_new0 (mathgElmnt, _tmp21_);

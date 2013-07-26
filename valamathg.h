@@ -74,6 +74,7 @@ struct _mathgEventCogClass {
 };
 
 struct _mathgConfFile {
+	GFile* f;
 };
 
 struct _mathgNumberUtils {
@@ -125,10 +126,11 @@ void mathg_event_cog_repaint (mathgEventCog* self);
 GType mathg_conf_file_get_type (void) G_GNUC_CONST;
 mathgConfFile* mathg_conf_file_dup (const mathgConfFile* self);
 void mathg_conf_file_free (mathgConfFile* self);
-extern GFile* mathg_conf_file__f;
-GFile* mathg_conf_file_cfgfile (void);
-void mathg_conf_file_chkdir (GFile* f);
-gchar** mathg_conf_file_getdata (GFile* f, int* result_length1);
+void mathg_conf_file_copy (const mathgConfFile* self, mathgConfFile* dest);
+void mathg_conf_file_destroy (mathgConfFile* self);
+void mathg_conf_file_init (mathgConfFile *self);
+gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1);
+gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* result_length1);
 GType mathg_math_cog_get_type (void) G_GNUC_CONST;
 GType mathg_number_utils_get_type (void) G_GNUC_CONST;
 mathgNumberUtils* mathg_number_utils_dup (const mathgNumberUtils* self);

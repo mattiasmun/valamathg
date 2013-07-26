@@ -23,117 +23,87 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 
 #define MATHG_TYPE_CONF_FILE (mathg_conf_file_get_type ())
 typedef struct _mathgConfFile mathgConfFile;
-#define _g_free0(var) (var = (g_free (var), NULL))
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
+#define _g_free0(var) (var = (g_free (var), NULL))
 #define _g_error_free0(var) ((var == NULL) ? NULL : (var = (g_error_free (var), NULL)))
 
 struct _mathgConfFile {
+	GFile* f;
 };
 
 
-extern GFile* mathg_conf_file__f;
-GFile* mathg_conf_file__f = NULL;
 
 GType mathg_conf_file_get_type (void) G_GNUC_CONST;
 mathgConfFile* mathg_conf_file_dup (const mathgConfFile* self);
 void mathg_conf_file_free (mathgConfFile* self);
-GFile* mathg_conf_file_cfgfile (void);
-void mathg_conf_file_chkdir (GFile* f);
-gchar** mathg_conf_file_getdata (GFile* f, int* result_length1);
+void mathg_conf_file_copy (const mathgConfFile* self, mathgConfFile* dest);
+void mathg_conf_file_destroy (mathgConfFile* self);
+void mathg_conf_file_init (mathgConfFile *self);
+static void mathg_conf_file_mkdir (mathgConfFile *self);
+gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1);
+gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* result_length1);
 static gint _vala_array_length (gpointer array);
 
 
-static gpointer _g_object_ref0 (gpointer self) {
-	return self ? g_object_ref (self) : NULL;
+void mathg_conf_file_init (mathgConfFile *self) {
+	const gchar* _tmp0_ = NULL;
+	gchar* _tmp1_;
+	gchar* s;
+	const gchar* _tmp2_;
+	gchar* _tmp3_;
+	const gchar* _tmp4_;
+	GFile* _tmp5_ = NULL;
+	memset (self, 0, sizeof (mathgConfFile));
+	_tmp0_ = g_get_user_config_dir ();
+	_tmp1_ = g_strdup (_tmp0_);
+	s = _tmp1_;
+	_tmp2_ = s;
+	_tmp3_ = g_strconcat (_tmp2_, "/valamathg/valamathg.conf", NULL);
+	_g_free0 (s);
+	s = _tmp3_;
+	_tmp4_ = s;
+	_tmp5_ = g_file_new_for_path (_tmp4_);
+	_g_object_unref0 ((*self).f);
+	(*self).f = _tmp5_;
+	_g_free0 (s);
 }
 
 
-GFile* mathg_conf_file_cfgfile (void) {
-	GFile* result = NULL;
-	GFile* _tmp0_;
-	GFile* _tmp8_;
-	GFile* _tmp9_;
-	_tmp0_ = mathg_conf_file__f;
-	if (_tmp0_ == NULL) {
-		const gchar* _tmp1_ = NULL;
-		gchar* _tmp2_;
-		gchar* s;
-		const gchar* _tmp3_;
-		gchar* _tmp4_;
-		const gchar* _tmp5_;
-		GFile* _tmp6_ = NULL;
-		GFile* _tmp7_;
-		_tmp1_ = g_get_user_config_dir ();
-		_tmp2_ = g_strdup (_tmp1_);
-		s = _tmp2_;
-		_tmp3_ = s;
-		_tmp4_ = g_strconcat (_tmp3_, "/valamathg/valamathg.conf", NULL);
-		_g_free0 (s);
-		s = _tmp4_;
-		_tmp5_ = s;
-		_tmp6_ = g_file_new_for_path (_tmp5_);
-		_g_object_unref0 (mathg_conf_file__f);
-		mathg_conf_file__f = _tmp6_;
-		_tmp7_ = mathg_conf_file__f;
-		mathg_conf_file_chkdir (_tmp7_);
-		_g_free0 (s);
-	}
-	_tmp8_ = mathg_conf_file__f;
-	_tmp9_ = _g_object_ref0 (_tmp8_);
-	result = _tmp9_;
-	return result;
-}
-
-
-void mathg_conf_file_chkdir (GFile* f) {
+static void mathg_conf_file_mkdir (mathgConfFile *self) {
 	GError * _inner_error_ = NULL;
-	g_return_if_fail (f != NULL);
 	{
 		GFile* _tmp0_;
 		GFile* _tmp1_ = NULL;
 		GFile* _tmp2_;
-		gboolean _tmp3_ = FALSE;
-		gboolean _tmp4_;
-		_tmp0_ = f;
+		_tmp0_ = (*self).f;
 		_tmp1_ = g_file_get_parent (_tmp0_);
 		_tmp2_ = _tmp1_;
-		_tmp3_ = g_file_query_exists (_tmp2_, NULL);
-		_tmp4_ = !_tmp3_;
+		g_file_make_directory_with_parents (_tmp2_, NULL, &_inner_error_);
 		_g_object_unref0 (_tmp2_);
-		if (_tmp4_) {
-			GFile* _tmp5_;
-			GFile* _tmp6_ = NULL;
-			GFile* _tmp7_;
-			_tmp5_ = f;
-			_tmp6_ = g_file_get_parent (_tmp5_);
-			_tmp7_ = _tmp6_;
-			g_file_make_directory_with_parents (_tmp7_, NULL, &_inner_error_);
-			_g_object_unref0 (_tmp7_);
-			if (_inner_error_ != NULL) {
-				goto __catch0_g_error;
-			}
+		if (_inner_error_ != NULL) {
+			goto __catch0_g_error;
 		}
 	}
 	goto __finally0;
 	__catch0_g_error:
 	{
 		GError* e = NULL;
-		FILE* _tmp8_;
-		GError* _tmp9_;
-		const gchar* _tmp10_;
+		FILE* _tmp3_;
+		GError* _tmp4_;
+		const gchar* _tmp5_;
 		e = _inner_error_;
 		_inner_error_ = NULL;
-		_tmp8_ = stderr;
-		_tmp9_ = e;
-		_tmp10_ = _tmp9_->message;
-		fprintf (_tmp8_, "%s\n", _tmp10_);
+		_tmp3_ = stderr;
+		_tmp4_ = e;
+		_tmp5_ = _tmp4_->message;
+		fprintf (_tmp3_, "%s\n", _tmp5_);
 		_g_error_free0 (e);
 	}
 	__finally0:
@@ -145,138 +115,198 @@ void mathg_conf_file_chkdir (GFile* f) {
 }
 
 
-gchar** mathg_conf_file_getdata (GFile* f, int* result_length1) {
+gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1) {
 	gchar** result = NULL;
-	gchar* _tmp0_;
-	gchar* s;
-	const gchar* _tmp25_;
-	gchar** _tmp26_;
-	gchar** _tmp27_ = NULL;
-	gchar** _tmp28_;
-	gint _tmp28__length1;
 	GError * _inner_error_ = NULL;
-	g_return_val_if_fail (f != NULL, NULL);
-	_tmp0_ = g_strdup ("");
-	s = _tmp0_;
 	{
-		GFile* _tmp1_;
-		gboolean _tmp2_ = FALSE;
-		_tmp1_ = f;
-		_tmp2_ = g_file_query_exists (_tmp1_, NULL);
-		if (_tmp2_) {
-			GFile* _tmp3_;
-			GFileInputStream* _tmp4_ = NULL;
-			GFileInputStream* _tmp5_;
-			GFileInputStream* _tmp6_;
-			GDataInputStream* _tmp7_;
-			GDataInputStream* _tmp8_;
-			GDataInputStream* data_stream;
-			gsize st = 0UL;
-			GDataInputStream* _tmp9_;
-			gsize _tmp10_ = 0UL;
-			gchar* _tmp11_ = NULL;
-			gchar* _tmp12_;
-			_tmp3_ = f;
-			_tmp4_ = g_file_read (_tmp3_, NULL, &_inner_error_);
-			_tmp5_ = _tmp4_;
-			if (_inner_error_ != NULL) {
-				goto __catch1_g_error;
-			}
-			_tmp6_ = _tmp5_;
-			_tmp7_ = g_data_input_stream_new ((GInputStream*) _tmp6_);
-			_tmp8_ = _tmp7_;
-			_g_object_unref0 (_tmp6_);
-			data_stream = _tmp8_;
-			_tmp9_ = data_stream;
-			_tmp11_ = g_data_input_stream_read_line_utf8 (_tmp9_, &_tmp10_, NULL, &_inner_error_);
-			st = _tmp10_;
-			_tmp12_ = _tmp11_;
-			if (_inner_error_ != NULL) {
-				_g_object_unref0 (data_stream);
-				goto __catch1_g_error;
-			}
-			_g_free0 (s);
-			s = _tmp12_;
-			_g_object_unref0 (data_stream);
-		} else {
-			GFile* _tmp13_;
-			GFileOutputStream* _tmp14_ = NULL;
-			GFileOutputStream* _tmp15_;
-			GFileOutputStream* _tmp16_;
-			GDataOutputStream* _tmp17_;
-			GDataOutputStream* _tmp18_;
-			GDataOutputStream* data_stream;
-			gchar* _tmp19_;
-			GDataOutputStream* _tmp20_;
-			const gchar* _tmp21_;
-			_tmp13_ = f;
-			_tmp14_ = g_file_create (_tmp13_, G_FILE_CREATE_NONE, NULL, &_inner_error_);
-			_tmp15_ = _tmp14_;
-			if (_inner_error_ != NULL) {
-				goto __catch1_g_error;
-			}
-			_tmp16_ = _tmp15_;
-			_tmp17_ = g_data_output_stream_new ((GOutputStream*) _tmp16_);
-			_tmp18_ = _tmp17_;
-			_g_object_unref0 (_tmp16_);
-			data_stream = _tmp18_;
-			_tmp19_ = g_strdup ("10 1 10 +/ 2 20 .01");
-			_g_free0 (s);
-			s = _tmp19_;
-			_tmp20_ = data_stream;
-			_tmp21_ = s;
-			g_data_output_stream_put_string (_tmp20_, _tmp21_, NULL, &_inner_error_);
-			if (_inner_error_ != NULL) {
-				_g_object_unref0 (data_stream);
-				goto __catch1_g_error;
-			}
-			_g_object_unref0 (data_stream);
+		GFile* _tmp0_;
+		GFileInputStream* _tmp1_ = NULL;
+		GFileInputStream* _tmp2_;
+		GFileInputStream* _tmp3_;
+		GDataInputStream* _tmp4_;
+		GDataInputStream* _tmp5_;
+		GDataInputStream* data_stream;
+		gsize st = 0UL;
+		GDataInputStream* _tmp6_;
+		gsize _tmp7_ = 0UL;
+		gchar* _tmp8_ = NULL;
+		gchar* _tmp9_;
+		gchar* _tmp10_;
+		gchar** _tmp11_;
+		gchar** _tmp12_ = NULL;
+		gchar** _tmp13_;
+		gint _tmp13__length1;
+		gchar** _tmp14_;
+		gint _tmp14__length1;
+		_tmp0_ = (*self).f;
+		_tmp1_ = g_file_read (_tmp0_, NULL, &_inner_error_);
+		_tmp2_ = _tmp1_;
+		if (_inner_error_ != NULL) {
+			goto __catch1_g_error;
 		}
+		_tmp3_ = _tmp2_;
+		_tmp4_ = g_data_input_stream_new ((GInputStream*) _tmp3_);
+		_tmp5_ = _tmp4_;
+		_g_object_unref0 (_tmp3_);
+		data_stream = _tmp5_;
+		_tmp6_ = data_stream;
+		_tmp8_ = g_data_input_stream_read_line_utf8 (_tmp6_, &_tmp7_, NULL, &_inner_error_);
+		st = _tmp7_;
+		_tmp9_ = _tmp8_;
+		if (_inner_error_ != NULL) {
+			_g_object_unref0 (data_stream);
+			goto __catch1_g_error;
+		}
+		_tmp10_ = _tmp9_;
+		_tmp12_ = _tmp11_ = g_strsplit (_tmp10_, " ", 0);
+		_tmp13_ = _tmp12_;
+		_tmp13__length1 = _vala_array_length (_tmp11_);
+		_g_free0 (_tmp10_);
+		_tmp14_ = _tmp13_;
+		_tmp14__length1 = _tmp13__length1;
+		if (result_length1) {
+			*result_length1 = _tmp14__length1;
+		}
+		result = _tmp14_;
+		_g_object_unref0 (data_stream);
+		return result;
 	}
 	goto __finally1;
 	__catch1_g_error:
 	{
 		GError* e = NULL;
-		FILE* _tmp22_;
-		GError* _tmp23_;
-		const gchar* _tmp24_;
+		FILE* _tmp15_;
+		GError* _tmp16_;
+		const gchar* _tmp17_;
+		gint _tmp18_ = 0;
+		gchar** _tmp19_ = NULL;
+		gchar** _tmp20_;
+		gint _tmp20__length1;
 		e = _inner_error_;
 		_inner_error_ = NULL;
-		_tmp22_ = stderr;
-		_tmp23_ = e;
-		_tmp24_ = _tmp23_->message;
-		fprintf (_tmp22_, "%s\n", _tmp24_);
+		_tmp15_ = stderr;
+		_tmp16_ = e;
+		_tmp17_ = _tmp16_->message;
+		fprintf (_tmp15_, "%s\n", _tmp17_);
+		_tmp19_ = mathg_conf_file_trywrite (&(*self), "10 1 10 +/ 2 20 .01", &_tmp18_);
+		_tmp20_ = _tmp19_;
+		_tmp20__length1 = _tmp18_;
+		if (result_length1) {
+			*result_length1 = _tmp20__length1;
+		}
+		result = _tmp20_;
 		_g_error_free0 (e);
+		return result;
 	}
 	__finally1:
+	g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
+	g_clear_error (&_inner_error_);
+	return NULL;
+}
+
+
+gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* result_length1) {
+	gchar** result = NULL;
+	const gchar* _tmp9_;
+	gchar** _tmp10_;
+	gchar** _tmp11_ = NULL;
+	gchar** _tmp12_;
+	gint _tmp12__length1;
+	GError * _inner_error_ = NULL;
+	g_return_val_if_fail (s != NULL, NULL);
+	{
+		GFile* _tmp0_;
+		GFileOutputStream* _tmp1_ = NULL;
+		GFileOutputStream* file_stream;
+		GFileOutputStream* _tmp2_;
+		GDataOutputStream* _tmp3_;
+		GDataOutputStream* data_stream;
+		GDataOutputStream* _tmp4_;
+		const gchar* _tmp5_;
+		mathg_conf_file_mkdir (&(*self));
+		_tmp0_ = (*self).f;
+		_tmp1_ = g_file_create (_tmp0_, G_FILE_CREATE_NONE, NULL, &_inner_error_);
+		file_stream = _tmp1_;
+		if (_inner_error_ != NULL) {
+			goto __catch2_g_error;
+		}
+		_tmp2_ = file_stream;
+		_tmp3_ = g_data_output_stream_new ((GOutputStream*) _tmp2_);
+		data_stream = _tmp3_;
+		_tmp4_ = data_stream;
+		_tmp5_ = s;
+		g_data_output_stream_put_string (_tmp4_, _tmp5_, NULL, &_inner_error_);
+		if (_inner_error_ != NULL) {
+			_g_object_unref0 (data_stream);
+			_g_object_unref0 (file_stream);
+			goto __catch2_g_error;
+		}
+		_g_object_unref0 (data_stream);
+		_g_object_unref0 (file_stream);
+	}
+	goto __finally2;
+	__catch2_g_error:
+	{
+		GError* e = NULL;
+		FILE* _tmp6_;
+		GError* _tmp7_;
+		const gchar* _tmp8_;
+		e = _inner_error_;
+		_inner_error_ = NULL;
+		_tmp6_ = stderr;
+		_tmp7_ = e;
+		_tmp8_ = _tmp7_->message;
+		fprintf (_tmp6_, "%s\n", _tmp8_);
+		_g_error_free0 (e);
+	}
+	__finally2:
 	if (_inner_error_ != NULL) {
-		_g_free0 (s);
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
 		g_clear_error (&_inner_error_);
 		return NULL;
 	}
-	_tmp25_ = s;
-	_tmp27_ = _tmp26_ = g_strsplit (_tmp25_, " ", 0);
-	_tmp28_ = _tmp27_;
-	_tmp28__length1 = _vala_array_length (_tmp26_);
+	_tmp9_ = s;
+	_tmp11_ = _tmp10_ = g_strsplit (_tmp9_, " ", 0);
+	_tmp12_ = _tmp11_;
+	_tmp12__length1 = _vala_array_length (_tmp10_);
 	if (result_length1) {
-		*result_length1 = _tmp28__length1;
+		*result_length1 = _tmp12__length1;
 	}
-	result = _tmp28_;
-	_g_free0 (s);
+	result = _tmp12_;
 	return result;
+}
+
+
+static gpointer _g_object_ref0 (gpointer self) {
+	return self ? g_object_ref (self) : NULL;
+}
+
+
+void mathg_conf_file_copy (const mathgConfFile* self, mathgConfFile* dest) {
+	GFile* _tmp0_;
+	GFile* _tmp1_;
+	_tmp0_ = (*self).f;
+	_tmp1_ = _g_object_ref0 (_tmp0_);
+	_g_object_unref0 ((*dest).f);
+	(*dest).f = _tmp1_;
+}
+
+
+void mathg_conf_file_destroy (mathgConfFile* self) {
+	_g_object_unref0 ((*self).f);
 }
 
 
 mathgConfFile* mathg_conf_file_dup (const mathgConfFile* self) {
 	mathgConfFile* dup;
 	dup = g_new0 (mathgConfFile, 1);
-	memcpy (dup, self, sizeof (mathgConfFile));
+	mathg_conf_file_copy (self, dup);
 	return dup;
 }
 
 
 void mathg_conf_file_free (mathgConfFile* self) {
+	mathg_conf_file_destroy (self);
 	g_free (self);
 }
 

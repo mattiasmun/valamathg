@@ -33,47 +33,110 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
 void _vala_main (gchar** args, int args_length1);
+static gchar** _vala_array_dup1 (gchar** self, int length);
+static gchar** _vala_array_dup2 (gchar** self, int length);
 void frame (GtkWindow* gw, gchar** args, int args_length1);
 static void _gtk_main_quit_gtk_widget_destroy (GtkWidget* _sender, gpointer self);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
 
+static gchar** _vala_array_dup1 (gchar** self, int length) {
+	gchar** result;
+	int i;
+	result = g_new0 (gchar*, length + 1);
+	for (i = 0; i < length; i++) {
+		gchar* _tmp0_;
+		_tmp0_ = g_strdup (self[i]);
+		result[i] = _tmp0_;
+	}
+	return result;
+}
+
+
+static gchar** _vala_array_dup2 (gchar** self, int length) {
+	gchar** result;
+	int i;
+	result = g_new0 (gchar*, length + 1);
+	for (i = 0; i < length; i++) {
+		gchar* _tmp0_;
+		_tmp0_ = g_strdup (self[i]);
+		result[i] = _tmp0_;
+	}
+	return result;
+}
+
+
 void _vala_main (gchar** args, int args_length1) {
-	GFile* _tmp0_ = NULL;
-	GFile* _tmp1_;
-	gint _tmp2_ = 0;
-	gchar** _tmp3_ = NULL;
-	gchar** _tmp4_;
-	gint _tmp4__length1;
+	gchar** _tmp0_ = NULL;
+	gint _tmp0__length1 = 0;
+	gint __tmp0__size_ = 0;
+	gchar** _tmp1_;
+	gint _tmp1__length1;
+	gchar** _tmp9_;
+	gint _tmp9__length1;
+	gchar** _tmp10_;
+	gint _tmp10__length1;
 	gchar** data;
 	gint data_length1;
 	gint _data_size_;
-	GtkWindow* _tmp5_;
+	GtkWindow* _tmp11_;
 	GtkWindow* gw;
-	gchar** _tmp6_;
-	gint _tmp6__length1;
-	_tmp0_ = mathg_conf_file_cfgfile ();
-	_tmp1_ = _tmp0_;
-	_tmp3_ = mathg_conf_file_getdata (_tmp1_, &_tmp2_);
-	_tmp4_ = _tmp3_;
-	_tmp4__length1 = _tmp2_;
-	_g_object_unref0 (_tmp1_);
-	data = _tmp4_;
-	data_length1 = _tmp4__length1;
+	gchar** _tmp12_;
+	gint _tmp12__length1;
+	_tmp1_ = args;
+	_tmp1__length1 = args_length1;
+	if (_tmp1__length1 == 8) {
+		gchar** _tmp2_;
+		gint _tmp2__length1;
+		gchar** _tmp3_;
+		gint _tmp3__length1;
+		gchar** _tmp4_;
+		gint _tmp4__length1;
+		_tmp2_ = args;
+		_tmp2__length1 = args_length1;
+		_tmp3_ = args;
+		_tmp3__length1 = args_length1;
+		_tmp4_ = ((_tmp2_ + 1) != NULL) ? _vala_array_dup1 (_tmp2_ + 1, _tmp3__length1 - 1) : ((gpointer) (_tmp2_ + 1));
+		_tmp4__length1 = _tmp3__length1 - 1;
+		_tmp0_ = (_vala_array_free (_tmp0_, _tmp0__length1, (GDestroyNotify) g_free), NULL);
+		_tmp0_ = _tmp4_;
+		_tmp0__length1 = _tmp4__length1;
+		__tmp0__size_ = _tmp0__length1;
+	} else {
+		mathgConfFile _tmp5_ = {0};
+		mathgConfFile _tmp6_;
+		gint _tmp7_ = 0;
+		gchar** _tmp8_ = NULL;
+		mathg_conf_file_init (&_tmp5_);
+		_tmp6_ = _tmp5_;
+		_tmp8_ = mathg_conf_file_tryread (&_tmp6_, &_tmp7_);
+		_tmp0_ = (_vala_array_free (_tmp0_, _tmp0__length1, (GDestroyNotify) g_free), NULL);
+		_tmp0_ = _tmp8_;
+		_tmp0__length1 = _tmp7_;
+		__tmp0__size_ = _tmp0__length1;
+		mathg_conf_file_destroy (&_tmp6_);
+	}
+	_tmp9_ = _tmp0_;
+	_tmp9__length1 = _tmp0__length1;
+	_tmp10_ = (_tmp9_ != NULL) ? _vala_array_dup2 (_tmp9_, _tmp9__length1) : ((gpointer) _tmp9_);
+	_tmp10__length1 = _tmp9__length1;
+	data = _tmp10_;
+	data_length1 = _tmp10__length1;
 	_data_size_ = data_length1;
 	args = data;
 	args_length1 = data_length1;
 	gtk_init (&args_length1, &args);
-	_tmp5_ = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	g_object_ref_sink (_tmp5_);
-	gw = _tmp5_;
-	_tmp6_ = args;
-	_tmp6__length1 = args_length1;
-	frame (gw, _tmp6_, _tmp6__length1);
+	_tmp11_ = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	g_object_ref_sink (_tmp11_);
+	gw = _tmp11_;
+	_tmp12_ = args;
+	_tmp12__length1 = args_length1;
+	frame (gw, _tmp12_, _tmp12__length1);
 	gtk_main ();
 	_g_object_unref0 (gw);
 	data = (_vala_array_free (data, data_length1, (GDestroyNotify) g_free), NULL);
+	_tmp0_ = (_vala_array_free (_tmp0_, _tmp0__length1, (GDestroyNotify) g_free), NULL);
 }
 
 

@@ -8,10 +8,10 @@ namespace mathg {
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct ConfFile {
-		public static GLib.File _f;
-		public static GLib.File cfgfile ();
-		public static void chkdir (GLib.File f);
-		public static string[] getdata (GLib.File f = cfgfile ());
+		public GLib.File f;
+		public ConfFile ();
+		public string[] tryread ();
+		public string[] trywrite (string s = "10 1 10 +/ 2 20 .01");
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct Elmnt {
