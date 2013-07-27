@@ -43,6 +43,7 @@ typedef struct _mathgMyTimer mathgMyTimer;
 #define MATHG_TYPE_ELMNT (mathg_elmnt_get_type ())
 typedef struct _mathgElmnt mathgElmnt;
 typedef struct _mathgMathCog mathgMathCog;
+#define _vala_assert(expr, msg) if G_LIKELY (expr) ; else g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, msg);
 
 struct _mathgOperate {
 	gint64 max;
@@ -87,12 +88,14 @@ struct _mathgMathCog {
 
 
 
+#define MATHG_types "+-x/"
 GType mathg_operate_get_type (void) G_GNUC_CONST;
 mathgOperate* mathg_operate_dup (const mathgOperate* self);
 void mathg_operate_free (mathgOperate* self);
 void mathg_operate_copy (const mathgOperate* self, mathgOperate* dest);
 void mathg_operate_destroy (mathgOperate* self);
 void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c, gint d);
+static gchar* mathg_operate_checktype (mathgOperate *self, const gchar* s);
 GType mathg_math_cog_get_type (void) G_GNUC_CONST;
 GType mathg_number_utils_get_type (void) G_GNUC_CONST;
 mathgNumberUtils* mathg_number_utils_dup (const mathgNumberUtils* self);
@@ -121,7 +124,7 @@ void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c,
 	gint64 _tmp0_;
 	gint64 _tmp1_;
 	const gchar* _tmp2_;
-	gchar* _tmp3_;
+	gchar* _tmp3_ = NULL;
 	gint _tmp4_;
 	g_return_if_fail (c != NULL);
 	memset (self, 0, sizeof (mathgOperate));
@@ -130,11 +133,36 @@ void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c,
 	_tmp1_ = b;
 	(*self).max = _tmp1_;
 	_tmp2_ = c;
-	_tmp3_ = g_strdup (_tmp2_);
+	_tmp3_ = mathg_operate_checktype (&(*self), _tmp2_);
 	_g_free0 ((*self).typ);
 	(*self).typ = _tmp3_;
 	_tmp4_ = d;
 	(*self).term = _tmp4_;
+}
+
+
+static gint string_index_of_char (const gchar* self, gunichar c, gint start_index) {
+	gint result = 0;
+	gint _tmp0_;
+	gunichar _tmp1_;
+	gchar* _tmp2_ = NULL;
+	gchar* _result_;
+	gchar* _tmp3_;
+	g_return_val_if_fail (self != NULL, 0);
+	_tmp0_ = start_index;
+	_tmp1_ = c;
+	_tmp2_ = g_utf8_strchr (((gchar*) self) + _tmp0_, (gssize) (-1), _tmp1_);
+	_result_ = _tmp2_;
+	_tmp3_ = _result_;
+	if (_tmp3_ != NULL) {
+		gchar* _tmp4_;
+		_tmp4_ = _result_;
+		result = (gint) (_tmp4_ - ((gchar*) self));
+		return result;
+	} else {
+		result = -1;
+		return result;
+	}
 }
 
 
@@ -146,6 +174,56 @@ static gchar string_get (const gchar* self, glong index) {
 	_tmp0_ = index;
 	_tmp1_ = ((gchar*) self)[_tmp0_];
 	result = _tmp1_;
+	return result;
+}
+
+
+static gchar* mathg_operate_checktype (mathgOperate *self, const gchar* s) {
+	gchar* result = NULL;
+	const gchar* _tmp11_;
+	gchar* _tmp12_;
+	g_return_val_if_fail (s != NULL, NULL);
+	{
+		gint i;
+		i = 0;
+		{
+			gboolean _tmp0_;
+			_tmp0_ = TRUE;
+			while (TRUE) {
+				gboolean _tmp1_;
+				gint _tmp3_;
+				const gchar* _tmp4_;
+				gint _tmp5_;
+				gint _tmp6_;
+				const gchar* _tmp7_;
+				gint _tmp8_;
+				gchar _tmp9_ = '\0';
+				gint _tmp10_ = 0;
+				_tmp1_ = _tmp0_;
+				if (!_tmp1_) {
+					gint _tmp2_;
+					_tmp2_ = i;
+					i = _tmp2_ + 1;
+				}
+				_tmp0_ = FALSE;
+				_tmp3_ = i;
+				_tmp4_ = s;
+				_tmp5_ = strlen (_tmp4_);
+				_tmp6_ = _tmp5_;
+				if (!(_tmp3_ < _tmp6_)) {
+					break;
+				}
+				_tmp7_ = s;
+				_tmp8_ = i;
+				_tmp9_ = string_get (_tmp7_, (glong) _tmp8_);
+				_tmp10_ = string_index_of_char (MATHG_types, (gunichar) _tmp9_, 0);
+				_vala_assert (_tmp10_ > (-1), "types.index_of_char(s[i]) > -1");
+			}
+		}
+	}
+	_tmp11_ = s;
+	_tmp12_ = g_strdup (_tmp11_);
+	result = _tmp12_;
 	return result;
 }
 

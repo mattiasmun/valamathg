@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace mathg {
+	static const string types = "+-x/";
+
 	public struct Operate {
 		int64 max;
 		int64 min;
@@ -27,8 +29,15 @@ namespace mathg {
 		public Operate(int64 a, int64 b, string c, int d) {
 			min = a;
 			max = b;
-			typ = c;
+			typ = checktype(c);
 			term = d;
+		}
+
+		string checktype(string s) {
+			for(int i = 0; i < s.length; i++) {
+				assert(types.index_of_char(s[i]) > -1);
+			}
+			return s;
 		}
 
 		internal void oper(MathCog mc, int i) {
