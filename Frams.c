@@ -82,8 +82,6 @@ void _vala_main (gchar** args, int args_length1) {
 	gint _data_size_;
 	GtkWindow* _tmp11_;
 	GtkWindow* gw;
-	gchar** _tmp12_;
-	gint _tmp12__length1;
 	_tmp1_ = args;
 	_tmp1__length1 = args_length1;
 	if (_tmp1__length1 == 8) {
@@ -124,15 +122,11 @@ void _vala_main (gchar** args, int args_length1) {
 	data = _tmp10_;
 	data_length1 = _tmp10__length1;
 	_data_size_ = data_length1;
-	args = data;
-	args_length1 = data_length1;
 	gtk_init (&args_length1, &args);
 	_tmp11_ = (GtkWindow*) gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	g_object_ref_sink (_tmp11_);
 	gw = _tmp11_;
-	_tmp12_ = args;
-	_tmp12__length1 = args_length1;
-	frame (gw, _tmp12_, _tmp12__length1);
+	frame (gw, data, data_length1);
 	gtk_main ();
 	_g_object_unref0 (gw);
 	data = (_vala_array_free (data, data_length1, (GDestroyNotify) g_free), NULL);

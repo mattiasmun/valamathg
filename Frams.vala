@@ -21,10 +21,9 @@ using Gdk, Gtk, mathg;
 
 public static void main(string[] args) {
 	string[] data = args.length == 8 ? args[1: args.length]: ConfFile().tryread();
-	args = data;
 	Gtk.init(ref args);
 	var gw = new Gtk.Window();
-	frame(gw, args);
+	frame(gw, data);
 	Gtk.main();
 }
 
