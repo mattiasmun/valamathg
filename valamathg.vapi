@@ -57,7 +57,7 @@ namespace mathg {
 		public int64 max;
 		public int64 min;
 		public int term;
-		public string typ;
+		public string type;
 		public Operate (int64 a, int64 b, string c, int d);
 	}
 }

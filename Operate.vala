@@ -24,12 +24,12 @@ namespace mathg {
 		int64 max;
 		int64 min;
 		int term;
-		string typ;
+		string type;
 
 		public Operate(int64 a, int64 b, string c, int d) {
 			min = a;
 			max = b;
-			typ = checktype(c);
+			type = checktype(c);
 			term = d;
 		}
 
@@ -47,7 +47,7 @@ namespace mathg {
 			}
 			var ca = new char[term - 1];
 			for(int j = 0; j < term - 1; j++) {
-				ca[j] = typ[Random.int_range(0, typ.length)];
+				ca[j] = type[Random.int_range(0, type.length)];
 			}
 			int div = 0, mul = 0, oth = 0;
 			for(int j = 0; j < term - 1; j++) {
@@ -61,24 +61,28 @@ namespace mathg {
 					oth = j + 1;
 				}
 			}
-			int64 ans = tmpa[0];
-			for(int j = 0; j < term - 1; j++) {
-				if(ca[j] == '+') {
-					ans += tmpa[j + 1];
-				} else if(ca[j] == '-') {
-					ans -= tmpa[j + 1];
-				}
-			}
 			string q = @"$(i + 1))$(mc.nu.ts(ia[0]))";
 			for(int j = 1; j < term; j++) {
 				q += @"$(ca[j - 1])$(mc.nu.ts(ia[j]))";
 			}
-			mc.stra[i] = Elmnt(ans, @"$q=");
+			mc.stra[i] = Elmnt(sumup(tmpa, ca), @"$q=");
 		}
 
 		int64 rand(int64 a, int64 b) {
 			int64 gen = ((int64)int.MAX + 1) * Random.next_int() + Random.next_int();
 			return a + gen % (b - a);
+		}
+		
+		int64 sumup(int64[] numa, char[] typea) {
+			int64 ans = numa[0];
+			for(int j = 0; j < typea.length; j++) {
+				if(typea[j] == '+') {
+					ans += numa[j + 1];
+				} else if(typea[j] == '-') {
+					ans -= numa[j + 1];
+				}
+			}
+			return ans;
 		}
 	}
 }

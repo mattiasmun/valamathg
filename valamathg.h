@@ -61,7 +61,7 @@ struct _mathgOperate {
 	gint64 max;
 	gint64 min;
 	gint term;
-	gchar* typ;
+	gchar* type;
 };
 
 struct _mathgEventCog {
