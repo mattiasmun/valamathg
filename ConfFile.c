@@ -88,11 +88,11 @@ static void mathg_conf_file_mkdir (mathgConfFile *self) {
 		g_file_make_directory_with_parents (_tmp2_, NULL, &_inner_error_);
 		_g_object_unref0 (_tmp2_);
 		if (_inner_error_ != NULL) {
-			goto __catch0_g_error;
+			goto __catch1_g_error;
 		}
 	}
-	goto __finally0;
-	__catch0_g_error:
+	goto __finally1;
+	__catch1_g_error:
 	{
 		GError* e = NULL;
 		FILE* _tmp3_;
@@ -106,7 +106,7 @@ static void mathg_conf_file_mkdir (mathgConfFile *self) {
 		fprintf (_tmp3_, "%s\n", _tmp5_);
 		_g_error_free0 (e);
 	}
-	__finally0:
+	__finally1:
 	if (_inner_error_ != NULL) {
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
 		g_clear_error (&_inner_error_);
@@ -142,7 +142,7 @@ gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1) {
 		_tmp1_ = g_file_read (_tmp0_, NULL, &_inner_error_);
 		_tmp2_ = _tmp1_;
 		if (_inner_error_ != NULL) {
-			goto __catch1_g_error;
+			goto __catch2_g_error;
 		}
 		_tmp3_ = _tmp2_;
 		_tmp4_ = g_data_input_stream_new ((GInputStream*) _tmp3_);
@@ -155,7 +155,7 @@ gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1) {
 		_tmp9_ = _tmp8_;
 		if (_inner_error_ != NULL) {
 			_g_object_unref0 (data_stream);
-			goto __catch1_g_error;
+			goto __catch2_g_error;
 		}
 		_tmp10_ = _tmp9_;
 		_tmp12_ = _tmp11_ = g_strsplit (_tmp10_, " ", 0);
@@ -171,8 +171,8 @@ gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1) {
 		_g_object_unref0 (data_stream);
 		return result;
 	}
-	goto __finally1;
-	__catch1_g_error:
+	goto __finally2;
+	__catch2_g_error:
 	{
 		GError* e = NULL;
 		FILE* _tmp15_;
@@ -198,7 +198,7 @@ gchar** mathg_conf_file_tryread (mathgConfFile *self, int* result_length1) {
 		_g_error_free0 (e);
 		return result;
 	}
-	__finally1:
+	__finally2:
 	g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
 	g_clear_error (&_inner_error_);
 	return NULL;
@@ -228,7 +228,7 @@ gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* resu
 		_tmp1_ = g_file_create (_tmp0_, G_FILE_CREATE_NONE, NULL, &_inner_error_);
 		file_stream = _tmp1_;
 		if (_inner_error_ != NULL) {
-			goto __catch2_g_error;
+			goto __catch3_g_error;
 		}
 		_tmp2_ = file_stream;
 		_tmp3_ = g_data_output_stream_new ((GOutputStream*) _tmp2_);
@@ -239,13 +239,13 @@ gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* resu
 		if (_inner_error_ != NULL) {
 			_g_object_unref0 (data_stream);
 			_g_object_unref0 (file_stream);
-			goto __catch2_g_error;
+			goto __catch3_g_error;
 		}
 		_g_object_unref0 (data_stream);
 		_g_object_unref0 (file_stream);
 	}
-	goto __finally2;
-	__catch2_g_error:
+	goto __finally3;
+	__catch3_g_error:
 	{
 		GError* e = NULL;
 		FILE* _tmp6_;
@@ -259,7 +259,7 @@ gchar** mathg_conf_file_trywrite (mathgConfFile *self, const gchar* s, int* resu
 		fprintf (_tmp6_, "%s\n", _tmp8_);
 		_g_error_free0 (e);
 	}
-	__finally2:
+	__finally3:
 	if (_inner_error_ != NULL) {
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
 		g_clear_error (&_inner_error_);

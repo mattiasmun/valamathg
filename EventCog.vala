@@ -61,7 +61,7 @@ namespace mathg {
 		}
 
 		internal override bool key_press_event(EventKey event) {
-			mc.ch = event.str;
+			mc.ch = event.str.replace("§","0");
 			kod = event.keyval;
 			mc.isenter = is_enter();
 			switch(kod) {

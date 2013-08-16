@@ -57,6 +57,8 @@ typedef struct _mathgElmnt mathgElmnt;
 typedef struct _mathgMathCog mathgMathCog;
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 #define _g_free0(var) (var = (g_free (var), NULL))
+#define _g_regex_unref0(var) ((var == NULL) ? NULL : (var = (g_regex_unref (var), NULL)))
+#define _g_error_free0(var) ((var == NULL) ? NULL : (var = (g_error_free (var), NULL)))
 
 struct _mathgEventCog {
 	GtkViewport parent_instance;
@@ -399,12 +401,80 @@ static gboolean mathg_event_cog_is_enter (mathgEventCog* self) {
 }
 
 
+static gchar* string_replace (const gchar* self, const gchar* old, const gchar* replacement) {
+	gchar* result = NULL;
+	GError * _inner_error_ = NULL;
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (old != NULL, NULL);
+	g_return_val_if_fail (replacement != NULL, NULL);
+	{
+		const gchar* _tmp0_;
+		gchar* _tmp1_ = NULL;
+		gchar* _tmp2_;
+		GRegex* _tmp3_;
+		GRegex* _tmp4_;
+		GRegex* regex;
+		GRegex* _tmp5_;
+		const gchar* _tmp6_;
+		gchar* _tmp7_ = NULL;
+		gchar* _tmp8_;
+		_tmp0_ = old;
+		_tmp1_ = g_regex_escape_string (_tmp0_, -1);
+		_tmp2_ = _tmp1_;
+		_tmp3_ = g_regex_new (_tmp2_, 0, 0, &_inner_error_);
+		_tmp4_ = _tmp3_;
+		_g_free0 (_tmp2_);
+		regex = _tmp4_;
+		if (_inner_error_ != NULL) {
+			if (_inner_error_->domain == G_REGEX_ERROR) {
+				goto __catch0_g_regex_error;
+			}
+			g_critical ("file %s: line %d: unexpected error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
+			g_clear_error (&_inner_error_);
+			return NULL;
+		}
+		_tmp5_ = regex;
+		_tmp6_ = replacement;
+		_tmp7_ = g_regex_replace_literal (_tmp5_, self, (gssize) (-1), 0, _tmp6_, 0, &_inner_error_);
+		_tmp8_ = _tmp7_;
+		if (_inner_error_ != NULL) {
+			_g_regex_unref0 (regex);
+			if (_inner_error_->domain == G_REGEX_ERROR) {
+				goto __catch0_g_regex_error;
+			}
+			_g_regex_unref0 (regex);
+			g_critical ("file %s: line %d: unexpected error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
+			g_clear_error (&_inner_error_);
+			return NULL;
+		}
+		result = _tmp8_;
+		_g_regex_unref0 (regex);
+		return result;
+	}
+	goto __finally0;
+	__catch0_g_regex_error:
+	{
+		GError* e = NULL;
+		e = _inner_error_;
+		_inner_error_ = NULL;
+		g_assert_not_reached ();
+		_g_error_free0 (e);
+	}
+	__finally0:
+	if (_inner_error_ != NULL) {
+		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error_->message, g_quark_to_string (_inner_error_->domain), _inner_error_->code);
+		g_clear_error (&_inner_error_);
+		return NULL;
+	}
+}
+
+
 static gboolean mathg_event_cog_real_key_press_event (GtkWidget* base, GdkEventKey* event) {
 	mathgEventCog * self;
 	gboolean result = FALSE;
 	GdkEventKey _tmp0_;
 	const gchar* _tmp1_;
-	gchar* _tmp2_;
+	gchar* _tmp2_ = NULL;
 	GdkEventKey _tmp3_;
 	guint _tmp4_;
 	gboolean _tmp5_ = FALSE;
@@ -423,7 +493,7 @@ static gboolean mathg_event_cog_real_key_press_event (GtkWidget* base, GdkEventK
 	g_return_val_if_fail (event != NULL, FALSE);
 	_tmp0_ = *event;
 	_tmp1_ = _tmp0_.string;
-	_tmp2_ = g_strdup (_tmp1_);
+	_tmp2_ = string_replace (_tmp1_, "§", "0");
 	_g_free0 (self->priv->mc.ch);
 	self->priv->mc.ch = _tmp2_;
 	_tmp3_ = *event;
