@@ -49,8 +49,7 @@ namespace mathg {
 			stra[straind].guess = s.substring(0, s.length - 1);
 		}
 
-		void close() {
-			int64 ans = stra[straind].answer;
+		void close(int64 ans) {
 			int64 hyp = nu.tl(stra[straind].guess);
 			uint64 d = (hyp - ans).abs();
 			cor += ans.abs();
@@ -81,8 +80,10 @@ namespace mathg {
 				s += ch;
 			}
 			stra[straind].guess = s;
-			if(Math.fabs(nu.td(stra[straind].guess) / stra[straind].answer - 1) <= deviation || isenter) {
-				close();
+			double d = nu.td(stra[straind].guess);
+			int64 ans = stra[straind].answer;
+			if((int64)d == ans || Math.fabs(d / ans - 1) <= deviation || isenter) {
+				close(ans);
 			}
 			isenter = false;
 		}
