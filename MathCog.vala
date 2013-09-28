@@ -79,8 +79,8 @@ namespace mathg {
 			} else if(digits.substring(0, nu.bas).contains(ch)) {
 				s += ch;
 			}
+			double d = nu.td(s);
 			stra[straind].guess = s;
-			double d = nu.td(stra[straind].guess);
 			int64 ans = stra[straind].answer;
 			if((int64)d == ans || Math.fabs(d / ans - 1) <= deviation || isenter) {
 				close(ans);

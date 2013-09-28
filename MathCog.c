@@ -600,30 +600,26 @@ void mathg_math_cog_put (mathgMathCog *self) {
 	gchar* _tmp4_;
 	gchar* s;
 	const gchar* _tmp5_;
-	mathgElmnt* _tmp26_;
-	gint _tmp26__length1;
-	gint _tmp27_;
-	const gchar* _tmp28_;
-	gchar* _tmp29_;
-	mathgElmnt* _tmp30_;
-	gint _tmp30__length1;
-	gint _tmp31_;
-	mathgElmnt _tmp32_;
-	const gchar* _tmp33_;
-	gdouble _tmp34_ = 0.0;
+	const gchar* _tmp26_;
+	gdouble _tmp27_ = 0.0;
 	gdouble d;
-	mathgElmnt* _tmp35_;
-	gint _tmp35__length1;
-	gint _tmp36_;
-	mathgElmnt _tmp37_;
-	gint64 _tmp38_;
+	mathgElmnt* _tmp28_;
+	gint _tmp28__length1;
+	gint _tmp29_;
+	const gchar* _tmp30_;
+	gchar* _tmp31_;
+	mathgElmnt* _tmp32_;
+	gint _tmp32__length1;
+	gint _tmp33_;
+	mathgElmnt _tmp34_;
+	gint64 _tmp35_;
 	gint64 ans;
-	gboolean _tmp39_ = FALSE;
-	gboolean _tmp40_ = FALSE;
-	gdouble _tmp41_;
-	gint64 _tmp42_;
-	gboolean _tmp47_;
-	gboolean _tmp49_;
+	gboolean _tmp36_ = FALSE;
+	gboolean _tmp37_ = FALSE;
+	gdouble _tmp38_;
+	gint64 _tmp39_;
+	gboolean _tmp44_;
+	gboolean _tmp46_;
 	_tmp0_ = (*self).stra;
 	_tmp0__length1 = (*self).stra_length1;
 	_tmp1_ = (*self).straind;
@@ -689,54 +685,50 @@ void mathg_math_cog_put (mathgMathCog *self) {
 			s = _tmp25_;
 		}
 	}
-	_tmp26_ = (*self).stra;
-	_tmp26__length1 = (*self).stra_length1;
-	_tmp27_ = (*self).straind;
-	_tmp28_ = s;
-	_tmp29_ = g_strdup (_tmp28_);
-	_g_free0 (_tmp26_[_tmp27_].guess);
-	_tmp26_[_tmp27_].guess = _tmp29_;
-	_tmp30_ = (*self).stra;
-	_tmp30__length1 = (*self).stra_length1;
-	_tmp31_ = (*self).straind;
-	_tmp32_ = _tmp30_[_tmp31_];
-	_tmp33_ = _tmp32_.guess;
-	_tmp34_ = mathg_number_utils_td (&(*self).nu, _tmp33_);
-	d = _tmp34_;
-	_tmp35_ = (*self).stra;
-	_tmp35__length1 = (*self).stra_length1;
-	_tmp36_ = (*self).straind;
-	_tmp37_ = _tmp35_[_tmp36_];
-	_tmp38_ = _tmp37_.answer;
-	ans = _tmp38_;
-	_tmp41_ = d;
-	_tmp42_ = ans;
-	if (((gint64) _tmp41_) == _tmp42_) {
-		_tmp40_ = TRUE;
+	_tmp26_ = s;
+	_tmp27_ = mathg_number_utils_td (&(*self).nu, _tmp26_);
+	d = _tmp27_;
+	_tmp28_ = (*self).stra;
+	_tmp28__length1 = (*self).stra_length1;
+	_tmp29_ = (*self).straind;
+	_tmp30_ = s;
+	_tmp31_ = g_strdup (_tmp30_);
+	_g_free0 (_tmp28_[_tmp29_].guess);
+	_tmp28_[_tmp29_].guess = _tmp31_;
+	_tmp32_ = (*self).stra;
+	_tmp32__length1 = (*self).stra_length1;
+	_tmp33_ = (*self).straind;
+	_tmp34_ = _tmp32_[_tmp33_];
+	_tmp35_ = _tmp34_.answer;
+	ans = _tmp35_;
+	_tmp38_ = d;
+	_tmp39_ = ans;
+	if (((gint64) _tmp38_) == _tmp39_) {
+		_tmp37_ = TRUE;
 	} else {
+		gdouble _tmp40_;
+		gint64 _tmp41_;
+		gdouble _tmp42_ = 0.0;
 		gdouble _tmp43_;
-		gint64 _tmp44_;
-		gdouble _tmp45_ = 0.0;
-		gdouble _tmp46_;
-		_tmp43_ = d;
-		_tmp44_ = ans;
-		_tmp45_ = fabs ((_tmp43_ / _tmp44_) - 1);
-		_tmp46_ = (*self).deviation;
-		_tmp40_ = _tmp45_ <= _tmp46_;
+		_tmp40_ = d;
+		_tmp41_ = ans;
+		_tmp42_ = fabs ((_tmp40_ / _tmp41_) - 1);
+		_tmp43_ = (*self).deviation;
+		_tmp37_ = _tmp42_ <= _tmp43_;
 	}
-	_tmp47_ = _tmp40_;
-	if (_tmp47_) {
-		_tmp39_ = TRUE;
+	_tmp44_ = _tmp37_;
+	if (_tmp44_) {
+		_tmp36_ = TRUE;
 	} else {
-		gboolean _tmp48_;
-		_tmp48_ = (*self).isenter;
-		_tmp39_ = _tmp48_;
+		gboolean _tmp45_;
+		_tmp45_ = (*self).isenter;
+		_tmp36_ = _tmp45_;
 	}
-	_tmp49_ = _tmp39_;
-	if (_tmp49_) {
-		gint64 _tmp50_;
-		_tmp50_ = ans;
-		mathg_math_cog_close (&(*self), _tmp50_);
+	_tmp46_ = _tmp36_;
+	if (_tmp46_) {
+		gint64 _tmp47_;
+		_tmp47_ = ans;
+		mathg_math_cog_close (&(*self), _tmp47_);
 	}
 	(*self).isenter = FALSE;
 	_g_free0 (s);
