@@ -21,16 +21,18 @@ namespace mathg {
 	static const string types = "+-x/";
 
 	public struct Operate {
-		int64 max;
-		int64 min;
+		uint bas;
+		double max;
+		double min;
 		int term;
 		string type;
 
-		public Operate(int64 a, int64 b, string c, int d) {
-			min = a;
-			max = b;
-			type = checktype(c);
-			term = d;
+		public Operate(uint a, int64 b, int64 c, string d, int e) {
+			bas = a;
+			min = Math.log(b)/Math.log(a);
+			max = Math.log(c)/Math.log(a) - min;
+			type = checktype(d);
+			term = e;
 		}
 
 		string checktype(string s) {
@@ -68,11 +70,10 @@ namespace mathg {
 			mc.stra[i] = Elmnt(sumup(tmpa, ca), @"$q=");
 		}
 
-		int64 rand(int64 a, int64 b) {
-			int64 gen = ((int64)int.MAX + 1) * Random.next_int() + Random.next_int();
-			return a + gen % (b - a);
+		int64 rand(double a, double b) {
+			return (int64) Math.pow(bas, a + b * Random.next_double());
 		}
-		
+
 		int64 sumup(int64[] numa, char[] typea) {
 			int64 ans = numa[0];
 			for(int j = 0; j < typea.length; j++) {
