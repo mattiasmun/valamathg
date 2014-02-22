@@ -58,9 +58,8 @@ struct _mathgMyTimer {
 };
 
 struct _mathgOperate {
-	guint bas;
-	gdouble max;
 	gdouble min;
+	gdouble span;
 	gint term;
 	gchar* type;
 };
@@ -119,7 +118,7 @@ mathgOperate* mathg_operate_dup (const mathgOperate* self);
 void mathg_operate_free (mathgOperate* self);
 void mathg_operate_copy (const mathgOperate* self, mathgOperate* dest);
 void mathg_operate_destroy (mathgOperate* self);
-void mathg_operate_init (mathgOperate *self, guint a, gint64 b, gint64 c, const gchar* d, gint e);
+void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c, gint d);
 GType mathg_event_cog_get_type (void) G_GNUC_CONST;
 mathgEventCog* mathg_event_cog_new (gchar** args, int args_length1);
 mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1);

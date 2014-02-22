@@ -46,9 +46,8 @@ typedef struct _mathgMathCog mathgMathCog;
 #define _vala_assert(expr, msg) if G_LIKELY (expr) ; else g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, msg);
 
 struct _mathgOperate {
-	guint bas;
-	gdouble max;
 	gdouble min;
+	gdouble span;
 	gint term;
 	gchar* type;
 };
@@ -95,7 +94,7 @@ mathgOperate* mathg_operate_dup (const mathgOperate* self);
 void mathg_operate_free (mathgOperate* self);
 void mathg_operate_copy (const mathgOperate* self, mathgOperate* dest);
 void mathg_operate_destroy (mathgOperate* self);
-void mathg_operate_init (mathgOperate *self, guint a, gint64 b, gint64 c, const gchar* d, gint e);
+void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c, gint d);
 static gchar* mathg_operate_checktype (mathgOperate *self, const gchar* s);
 GType mathg_math_cog_get_type (void) G_GNUC_CONST;
 GType mathg_number_utils_get_type (void) G_GNUC_CONST;
@@ -116,47 +115,36 @@ void mathg_math_cog_free (mathgMathCog* self);
 void mathg_math_cog_copy (const mathgMathCog* self, mathgMathCog* dest);
 void mathg_math_cog_destroy (mathgMathCog* self);
 void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i);
-static gint64 mathg_operate_rand (mathgOperate *self, gdouble a, gdouble b);
+static gint64 mathg_operate_rand (mathgOperate *self);
 gchar* mathg_number_utils_ts (mathgNumberUtils *self, gint64 a);
 static gint64 mathg_operate_sumup (mathgOperate *self, gint64* numa, int numa_length1, gchar* typea, int typea_length1);
 void mathg_elmnt_init (mathgElmnt *self, gint64 a, const gchar* s);
 
 
-void mathg_operate_init (mathgOperate *self, guint a, gint64 b, gint64 c, const gchar* d, gint e) {
-	guint _tmp0_;
-	gint64 _tmp1_;
-	gdouble _tmp2_ = 0.0;
-	guint _tmp3_;
-	gdouble _tmp4_ = 0.0;
-	gint64 _tmp5_;
-	gdouble _tmp6_ = 0.0;
-	guint _tmp7_;
-	gdouble _tmp8_ = 0.0;
-	gdouble _tmp9_;
-	const gchar* _tmp10_;
-	gchar* _tmp11_ = NULL;
-	gint _tmp12_;
-	g_return_if_fail (d != NULL);
+void mathg_operate_init (mathgOperate *self, gint64 a, gint64 b, const gchar* c, gint d) {
+	gint64 _tmp0_;
+	gdouble _tmp1_ = 0.0;
+	gint64 _tmp2_;
+	gdouble _tmp3_ = 0.0;
+	gdouble _tmp4_;
+	const gchar* _tmp5_;
+	gchar* _tmp6_ = NULL;
+	gint _tmp7_;
+	g_return_if_fail (c != NULL);
 	memset (self, 0, sizeof (mathgOperate));
 	_tmp0_ = a;
-	(*self).bas = _tmp0_;
-	_tmp1_ = b;
-	_tmp2_ = log ((gdouble) _tmp1_);
-	_tmp3_ = a;
-	_tmp4_ = log ((gdouble) _tmp3_);
-	(*self).min = _tmp2_ / _tmp4_;
+	_tmp1_ = log ((gdouble) _tmp0_);
+	(*self).min = _tmp1_;
+	_tmp2_ = b;
+	_tmp3_ = log ((gdouble) _tmp2_);
+	_tmp4_ = (*self).min;
+	(*self).span = _tmp3_ - _tmp4_;
 	_tmp5_ = c;
-	_tmp6_ = log ((gdouble) _tmp5_);
-	_tmp7_ = a;
-	_tmp8_ = log ((gdouble) _tmp7_);
-	_tmp9_ = (*self).min;
-	(*self).max = (_tmp6_ / _tmp8_) - _tmp9_;
-	_tmp10_ = d;
-	_tmp11_ = mathg_operate_checktype (&(*self), _tmp10_);
+	_tmp6_ = mathg_operate_checktype (&(*self), _tmp5_);
 	_g_free0 ((*self).type);
-	(*self).type = _tmp11_;
-	_tmp12_ = e;
-	(*self).term = _tmp12_;
+	(*self).type = _tmp6_;
+	_tmp7_ = d;
+	(*self).term = _tmp7_;
 }
 
 
@@ -266,38 +254,38 @@ void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i) {
 	gint64* tmpa;
 	gint tmpa_length1;
 	gint _tmpa_size_;
-	gint _tmp18_;
-	gchar* _tmp19_ = NULL;
+	gint _tmp16_;
+	gchar* _tmp17_ = NULL;
 	gchar* ca;
 	gint ca_length1;
 	gint _ca_size_;
 	gint div;
 	gint mul;
 	gint oth;
-	gint _tmp69_;
-	gchar* _tmp70_ = NULL;
-	gchar* _tmp71_;
-	gint64* _tmp72_;
-	gint _tmp72__length1;
-	gint64 _tmp73_;
-	gchar* _tmp74_ = NULL;
-	gchar* _tmp75_;
-	const gchar* _tmp76_ = NULL;
-	gchar* _tmp77_ = NULL;
-	gchar* _tmp78_;
+	gint _tmp67_;
+	gchar* _tmp68_ = NULL;
+	gchar* _tmp69_;
+	gint64* _tmp70_;
+	gint _tmp70__length1;
+	gint64 _tmp71_;
+	gchar* _tmp72_ = NULL;
+	gchar* _tmp73_;
+	const gchar* _tmp74_ = NULL;
+	gchar* _tmp75_ = NULL;
+	gchar* _tmp76_;
 	gchar* q;
-	gint _tmp99_;
-	gint64* _tmp100_;
-	gint _tmp100__length1;
-	gchar* _tmp101_;
-	gint _tmp101__length1;
-	gint64 _tmp102_ = 0LL;
-	const gchar* _tmp103_;
-	const gchar* _tmp104_ = NULL;
-	gchar* _tmp105_ = NULL;
-	gchar* _tmp106_;
-	mathgElmnt _tmp107_ = {0};
-	mathgElmnt _tmp108_;
+	gint _tmp97_;
+	gint64* _tmp98_;
+	gint _tmp98__length1;
+	gchar* _tmp99_;
+	gint _tmp99__length1;
+	gint64 _tmp100_ = 0LL;
+	const gchar* _tmp101_;
+	const gchar* _tmp102_ = NULL;
+	gchar* _tmp103_ = NULL;
+	gchar* _tmp104_;
+	mathgElmnt _tmp105_ = {0};
+	mathgElmnt _tmp106_;
 	g_return_if_fail (mc != NULL);
 	_tmp0_ = (*self).term;
 	_tmp1_ = g_new0 (gint64, _tmp0_);
@@ -325,11 +313,9 @@ void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i) {
 				gint64* _tmp11_;
 				gint _tmp11__length1;
 				gint _tmp12_;
-				gdouble _tmp13_;
-				gdouble _tmp14_;
-				gint64 _tmp15_ = 0LL;
-				gint64 _tmp16_;
-				gint64 _tmp17_;
+				gint64 _tmp13_ = 0LL;
+				gint64 _tmp14_;
+				gint64 _tmp15_;
 				_tmp5_ = _tmp4_;
 				if (!_tmp5_) {
 					gint _tmp6_;
@@ -348,64 +334,62 @@ void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i) {
 				_tmp11_ = ia;
 				_tmp11__length1 = ia_length1;
 				_tmp12_ = j;
-				_tmp13_ = (*self).min;
-				_tmp14_ = (*self).max;
-				_tmp15_ = mathg_operate_rand (&(*self), _tmp13_, _tmp14_);
-				_tmp11_[_tmp12_] = _tmp15_;
-				_tmp16_ = _tmp11_[_tmp12_];
-				_tmp9_[_tmp10_] = _tmp16_;
-				_tmp17_ = _tmp9_[_tmp10_];
+				_tmp13_ = mathg_operate_rand (&(*self));
+				_tmp11_[_tmp12_] = _tmp13_;
+				_tmp14_ = _tmp11_[_tmp12_];
+				_tmp9_[_tmp10_] = _tmp14_;
+				_tmp15_ = _tmp9_[_tmp10_];
 			}
 		}
 	}
-	_tmp18_ = (*self).term;
-	_tmp19_ = g_new0 (gchar, _tmp18_ - 1);
-	ca = _tmp19_;
-	ca_length1 = _tmp18_ - 1;
+	_tmp16_ = (*self).term;
+	_tmp17_ = g_new0 (gchar, _tmp16_ - 1);
+	ca = _tmp17_;
+	ca_length1 = _tmp16_ - 1;
 	_ca_size_ = ca_length1;
 	{
 		gint j;
 		j = 0;
 		{
-			gboolean _tmp20_;
-			_tmp20_ = TRUE;
+			gboolean _tmp18_;
+			_tmp18_ = TRUE;
 			while (TRUE) {
-				gboolean _tmp21_;
-				gint _tmp23_;
+				gboolean _tmp19_;
+				gint _tmp21_;
+				gint _tmp22_;
+				gchar* _tmp23_;
+				gint _tmp23__length1;
 				gint _tmp24_;
-				gchar* _tmp25_;
-				gint _tmp25__length1;
-				gint _tmp26_;
-				const gchar* _tmp27_;
-				const gchar* _tmp28_;
-				gint _tmp29_;
-				gint _tmp30_;
-				gint32 _tmp31_ = 0;
-				gchar _tmp32_ = '\0';
-				gchar _tmp33_;
-				_tmp21_ = _tmp20_;
-				if (!_tmp21_) {
-					gint _tmp22_;
-					_tmp22_ = j;
-					j = _tmp22_ + 1;
+				const gchar* _tmp25_;
+				const gchar* _tmp26_;
+				gint _tmp27_;
+				gint _tmp28_;
+				gint32 _tmp29_ = 0;
+				gchar _tmp30_ = '\0';
+				gchar _tmp31_;
+				_tmp19_ = _tmp18_;
+				if (!_tmp19_) {
+					gint _tmp20_;
+					_tmp20_ = j;
+					j = _tmp20_ + 1;
 				}
-				_tmp20_ = FALSE;
-				_tmp23_ = j;
-				_tmp24_ = (*self).term;
-				if (!(_tmp23_ < (_tmp24_ - 1))) {
+				_tmp18_ = FALSE;
+				_tmp21_ = j;
+				_tmp22_ = (*self).term;
+				if (!(_tmp21_ < (_tmp22_ - 1))) {
 					break;
 				}
-				_tmp25_ = ca;
-				_tmp25__length1 = ca_length1;
-				_tmp26_ = j;
-				_tmp27_ = (*self).type;
-				_tmp28_ = (*self).type;
-				_tmp29_ = strlen (_tmp28_);
-				_tmp30_ = _tmp29_;
-				_tmp31_ = g_random_int_range ((gint32) 0, (gint32) _tmp30_);
-				_tmp32_ = string_get (_tmp27_, (glong) _tmp31_);
-				_tmp25_[_tmp26_] = _tmp32_;
-				_tmp33_ = _tmp25_[_tmp26_];
+				_tmp23_ = ca;
+				_tmp23__length1 = ca_length1;
+				_tmp24_ = j;
+				_tmp25_ = (*self).type;
+				_tmp26_ = (*self).type;
+				_tmp27_ = strlen (_tmp26_);
+				_tmp28_ = _tmp27_;
+				_tmp29_ = g_random_int_range ((gint32) 0, (gint32) _tmp28_);
+				_tmp30_ = string_get (_tmp25_, (glong) _tmp29_);
+				_tmp23_[_tmp24_] = _tmp30_;
+				_tmp31_ = _tmp23_[_tmp24_];
 			}
 		}
 	}
@@ -416,211 +400,211 @@ void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i) {
 		gint j;
 		j = 0;
 		{
-			gboolean _tmp34_;
-			_tmp34_ = TRUE;
+			gboolean _tmp32_;
+			_tmp32_ = TRUE;
 			while (TRUE) {
-				gboolean _tmp35_;
-				gint _tmp37_;
+				gboolean _tmp33_;
+				gint _tmp35_;
+				gint _tmp36_;
+				gchar* _tmp37_;
+				gint _tmp37__length1;
 				gint _tmp38_;
-				gchar* _tmp39_;
-				gint _tmp39__length1;
-				gint _tmp40_;
-				gchar _tmp41_;
-				_tmp35_ = _tmp34_;
-				if (!_tmp35_) {
-					gint _tmp36_;
-					_tmp36_ = j;
-					j = _tmp36_ + 1;
+				gchar _tmp39_;
+				_tmp33_ = _tmp32_;
+				if (!_tmp33_) {
+					gint _tmp34_;
+					_tmp34_ = j;
+					j = _tmp34_ + 1;
 				}
-				_tmp34_ = FALSE;
-				_tmp37_ = j;
-				_tmp38_ = (*self).term;
-				if (!(_tmp37_ < (_tmp38_ - 1))) {
+				_tmp32_ = FALSE;
+				_tmp35_ = j;
+				_tmp36_ = (*self).term;
+				if (!(_tmp35_ < (_tmp36_ - 1))) {
 					break;
 				}
-				_tmp39_ = ca;
-				_tmp39__length1 = ca_length1;
-				_tmp40_ = j;
-				_tmp41_ = _tmp39_[_tmp40_];
-				if (_tmp41_ == '/') {
-					gint _tmp42_ = 0;
-					gboolean _tmp43_ = FALSE;
-					gint _tmp44_;
-					gint _tmp45_;
-					gboolean _tmp48_;
+				_tmp37_ = ca;
+				_tmp37__length1 = ca_length1;
+				_tmp38_ = j;
+				_tmp39_ = _tmp37_[_tmp38_];
+				if (_tmp39_ == '/') {
+					gint _tmp40_ = 0;
+					gboolean _tmp41_ = FALSE;
+					gint _tmp42_;
+					gint _tmp43_;
+					gboolean _tmp46_;
+					gint _tmp49_;
+					gint64* _tmp50_;
+					gint _tmp50__length1;
 					gint _tmp51_;
 					gint64* _tmp52_;
 					gint _tmp52__length1;
 					gint _tmp53_;
-					gint64* _tmp54_;
-					gint _tmp54__length1;
-					gint _tmp55_;
-					gint64 _tmp56_;
-					gint64 _tmp57_;
-					_tmp44_ = div;
-					_tmp45_ = oth;
-					if (_tmp44_ < _tmp45_) {
-						_tmp43_ = TRUE;
+					gint64 _tmp54_;
+					gint64 _tmp55_;
+					_tmp42_ = div;
+					_tmp43_ = oth;
+					if (_tmp42_ < _tmp43_) {
+						_tmp41_ = TRUE;
 					} else {
-						gint _tmp46_;
+						gint _tmp44_;
+						gint _tmp45_;
+						_tmp44_ = div;
+						_tmp45_ = mul;
+						_tmp41_ = _tmp44_ < _tmp45_;
+					}
+					_tmp46_ = _tmp41_;
+					if (_tmp46_) {
 						gint _tmp47_;
-						_tmp46_ = div;
-						_tmp47_ = mul;
-						_tmp43_ = _tmp46_ < _tmp47_;
-					}
-					_tmp48_ = _tmp43_;
-					if (_tmp48_) {
-						gint _tmp49_;
-						_tmp49_ = j;
-						_tmp42_ = _tmp49_;
+						_tmp47_ = j;
+						_tmp40_ = _tmp47_;
 					} else {
-						gint _tmp50_;
-						_tmp50_ = div;
-						_tmp42_ = _tmp50_;
+						gint _tmp48_;
+						_tmp48_ = div;
+						_tmp40_ = _tmp48_;
 					}
-					_tmp51_ = _tmp42_;
-					div = _tmp51_;
+					_tmp49_ = _tmp40_;
+					div = _tmp49_;
+					_tmp50_ = ia;
+					_tmp50__length1 = ia_length1;
+					_tmp51_ = div;
 					_tmp52_ = ia;
 					_tmp52__length1 = ia_length1;
-					_tmp53_ = div;
-					_tmp54_ = ia;
-					_tmp54__length1 = ia_length1;
-					_tmp55_ = j;
-					_tmp56_ = _tmp54_[_tmp55_ + 1];
-					_tmp52_[_tmp53_] *= _tmp56_;
-					_tmp57_ = _tmp52_[_tmp53_];
+					_tmp53_ = j;
+					_tmp54_ = _tmp52_[_tmp53_ + 1];
+					_tmp50_[_tmp51_] *= _tmp54_;
+					_tmp55_ = _tmp50_[_tmp51_];
 				} else {
-					gchar* _tmp58_;
-					gint _tmp58__length1;
-					gint _tmp59_;
-					gchar _tmp60_;
-					_tmp58_ = ca;
-					_tmp58__length1 = ca_length1;
-					_tmp59_ = j;
-					_tmp60_ = _tmp58_[_tmp59_];
-					if (_tmp60_ == 'x') {
+					gchar* _tmp56_;
+					gint _tmp56__length1;
+					gint _tmp57_;
+					gchar _tmp58_;
+					_tmp56_ = ca;
+					_tmp56__length1 = ca_length1;
+					_tmp57_ = j;
+					_tmp58_ = _tmp56_[_tmp57_];
+					if (_tmp58_ == 'x') {
+						gint _tmp59_;
+						gint64* _tmp60_;
+						gint _tmp60__length1;
 						gint _tmp61_;
 						gint64* _tmp62_;
 						gint _tmp62__length1;
 						gint _tmp63_;
-						gint64* _tmp64_;
-						gint _tmp64__length1;
-						gint _tmp65_;
-						gint64 _tmp66_;
-						gint64 _tmp67_;
-						_tmp61_ = j;
-						mul = _tmp61_ + 1;
-						_tmp62_ = tmpa;
-						_tmp62__length1 = tmpa_length1;
-						_tmp63_ = oth;
-						_tmp64_ = ia;
-						_tmp64__length1 = ia_length1;
-						_tmp65_ = mul;
-						_tmp66_ = _tmp64_[_tmp65_];
-						_tmp62_[_tmp63_] *= _tmp66_;
-						_tmp67_ = _tmp62_[_tmp63_];
+						gint64 _tmp64_;
+						gint64 _tmp65_;
+						_tmp59_ = j;
+						mul = _tmp59_ + 1;
+						_tmp60_ = tmpa;
+						_tmp60__length1 = tmpa_length1;
+						_tmp61_ = oth;
+						_tmp62_ = ia;
+						_tmp62__length1 = ia_length1;
+						_tmp63_ = mul;
+						_tmp64_ = _tmp62_[_tmp63_];
+						_tmp60_[_tmp61_] *= _tmp64_;
+						_tmp65_ = _tmp60_[_tmp61_];
 					} else {
-						gint _tmp68_;
-						_tmp68_ = j;
-						oth = _tmp68_ + 1;
+						gint _tmp66_;
+						_tmp66_ = j;
+						oth = _tmp66_ + 1;
 					}
 				}
 			}
 		}
 	}
-	_tmp69_ = i;
-	_tmp70_ = g_strdup_printf ("%i", _tmp69_ + 1);
-	_tmp71_ = _tmp70_;
-	_tmp72_ = ia;
-	_tmp72__length1 = ia_length1;
-	_tmp73_ = _tmp72_[0];
-	_tmp74_ = mathg_number_utils_ts (&(*mc).nu, _tmp73_);
-	_tmp75_ = _tmp74_;
-	_tmp76_ = string_to_string (_tmp75_);
-	_tmp77_ = g_strconcat (_tmp71_, ")", _tmp76_, NULL);
-	_tmp78_ = _tmp77_;
-	_g_free0 (_tmp75_);
-	_g_free0 (_tmp71_);
-	q = _tmp78_;
+	_tmp67_ = i;
+	_tmp68_ = g_strdup_printf ("%i", _tmp67_ + 1);
+	_tmp69_ = _tmp68_;
+	_tmp70_ = ia;
+	_tmp70__length1 = ia_length1;
+	_tmp71_ = _tmp70_[0];
+	_tmp72_ = mathg_number_utils_ts (&(*mc).nu, _tmp71_);
+	_tmp73_ = _tmp72_;
+	_tmp74_ = string_to_string (_tmp73_);
+	_tmp75_ = g_strconcat (_tmp69_, ")", _tmp74_, NULL);
+	_tmp76_ = _tmp75_;
+	_g_free0 (_tmp73_);
+	_g_free0 (_tmp69_);
+	q = _tmp76_;
 	{
 		gint j;
 		j = 1;
 		{
-			gboolean _tmp79_;
-			_tmp79_ = TRUE;
+			gboolean _tmp77_;
+			_tmp77_ = TRUE;
 			while (TRUE) {
-				gboolean _tmp80_;
-				gint _tmp82_;
-				gint _tmp83_;
-				const gchar* _tmp84_;
-				gchar* _tmp85_;
-				gint _tmp85__length1;
-				gint _tmp86_;
-				gchar _tmp87_;
-				gchar* _tmp88_ = NULL;
-				gchar* _tmp89_;
-				gint64* _tmp90_;
-				gint _tmp90__length1;
-				gint _tmp91_;
-				gint64 _tmp92_;
-				gchar* _tmp93_ = NULL;
-				gchar* _tmp94_;
-				const gchar* _tmp95_ = NULL;
-				gchar* _tmp96_ = NULL;
-				gchar* _tmp97_;
-				gchar* _tmp98_;
-				_tmp80_ = _tmp79_;
-				if (!_tmp80_) {
-					gint _tmp81_;
-					_tmp81_ = j;
-					j = _tmp81_ + 1;
+				gboolean _tmp78_;
+				gint _tmp80_;
+				gint _tmp81_;
+				const gchar* _tmp82_;
+				gchar* _tmp83_;
+				gint _tmp83__length1;
+				gint _tmp84_;
+				gchar _tmp85_;
+				gchar* _tmp86_ = NULL;
+				gchar* _tmp87_;
+				gint64* _tmp88_;
+				gint _tmp88__length1;
+				gint _tmp89_;
+				gint64 _tmp90_;
+				gchar* _tmp91_ = NULL;
+				gchar* _tmp92_;
+				const gchar* _tmp93_ = NULL;
+				gchar* _tmp94_ = NULL;
+				gchar* _tmp95_;
+				gchar* _tmp96_;
+				_tmp78_ = _tmp77_;
+				if (!_tmp78_) {
+					gint _tmp79_;
+					_tmp79_ = j;
+					j = _tmp79_ + 1;
 				}
-				_tmp79_ = FALSE;
-				_tmp82_ = j;
-				_tmp83_ = (*self).term;
-				if (!(_tmp82_ < _tmp83_)) {
+				_tmp77_ = FALSE;
+				_tmp80_ = j;
+				_tmp81_ = (*self).term;
+				if (!(_tmp80_ < _tmp81_)) {
 					break;
 				}
-				_tmp84_ = q;
-				_tmp85_ = ca;
-				_tmp85__length1 = ca_length1;
-				_tmp86_ = j;
-				_tmp87_ = _tmp85_[_tmp86_ - 1];
-				_tmp88_ = g_strdup_printf ("%c", _tmp87_);
-				_tmp89_ = _tmp88_;
-				_tmp90_ = ia;
-				_tmp90__length1 = ia_length1;
-				_tmp91_ = j;
-				_tmp92_ = _tmp90_[_tmp91_];
-				_tmp93_ = mathg_number_utils_ts (&(*mc).nu, _tmp92_);
-				_tmp94_ = _tmp93_;
-				_tmp95_ = string_to_string (_tmp94_);
-				_tmp96_ = g_strconcat (_tmp89_, _tmp95_, NULL);
-				_tmp97_ = _tmp96_;
-				_tmp98_ = g_strconcat (_tmp84_, _tmp97_, NULL);
+				_tmp82_ = q;
+				_tmp83_ = ca;
+				_tmp83__length1 = ca_length1;
+				_tmp84_ = j;
+				_tmp85_ = _tmp83_[_tmp84_ - 1];
+				_tmp86_ = g_strdup_printf ("%c", _tmp85_);
+				_tmp87_ = _tmp86_;
+				_tmp88_ = ia;
+				_tmp88__length1 = ia_length1;
+				_tmp89_ = j;
+				_tmp90_ = _tmp88_[_tmp89_];
+				_tmp91_ = mathg_number_utils_ts (&(*mc).nu, _tmp90_);
+				_tmp92_ = _tmp91_;
+				_tmp93_ = string_to_string (_tmp92_);
+				_tmp94_ = g_strconcat (_tmp87_, _tmp93_, NULL);
+				_tmp95_ = _tmp94_;
+				_tmp96_ = g_strconcat (_tmp82_, _tmp95_, NULL);
 				_g_free0 (q);
-				q = _tmp98_;
-				_g_free0 (_tmp97_);
-				_g_free0 (_tmp94_);
-				_g_free0 (_tmp89_);
+				q = _tmp96_;
+				_g_free0 (_tmp95_);
+				_g_free0 (_tmp92_);
+				_g_free0 (_tmp87_);
 			}
 		}
 	}
-	_tmp99_ = i;
-	_tmp100_ = tmpa;
-	_tmp100__length1 = tmpa_length1;
-	_tmp101_ = ca;
-	_tmp101__length1 = ca_length1;
-	_tmp102_ = mathg_operate_sumup (&(*self), _tmp100_, _tmp100__length1, _tmp101_, _tmp101__length1);
-	_tmp103_ = q;
-	_tmp104_ = string_to_string (_tmp103_);
-	_tmp105_ = g_strconcat (_tmp104_, "=", NULL);
-	_tmp106_ = _tmp105_;
-	mathg_elmnt_init (&_tmp107_, _tmp102_, _tmp106_);
-	mathg_elmnt_destroy (&(*mc).stra[_tmp99_]);
-	(*mc).stra[_tmp99_] = _tmp107_;
-	_tmp108_ = (*mc).stra[_tmp99_];
-	_g_free0 (_tmp106_);
+	_tmp97_ = i;
+	_tmp98_ = tmpa;
+	_tmp98__length1 = tmpa_length1;
+	_tmp99_ = ca;
+	_tmp99__length1 = ca_length1;
+	_tmp100_ = mathg_operate_sumup (&(*self), _tmp98_, _tmp98__length1, _tmp99_, _tmp99__length1);
+	_tmp101_ = q;
+	_tmp102_ = string_to_string (_tmp101_);
+	_tmp103_ = g_strconcat (_tmp102_, "=", NULL);
+	_tmp104_ = _tmp103_;
+	mathg_elmnt_init (&_tmp105_, _tmp100_, _tmp104_);
+	mathg_elmnt_destroy (&(*mc).stra[_tmp97_]);
+	(*mc).stra[_tmp97_] = _tmp105_;
+	_tmp106_ = (*mc).stra[_tmp97_];
+	_g_free0 (_tmp104_);
 	_g_free0 (q);
 	ca = (g_free (ca), NULL);
 	tmpa = (g_free (tmpa), NULL);
@@ -628,19 +612,17 @@ void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i) {
 }
 
 
-static gint64 mathg_operate_rand (mathgOperate *self, gdouble a, gdouble b) {
+static gint64 mathg_operate_rand (mathgOperate *self) {
 	gint64 result = 0LL;
-	guint _tmp0_;
+	gdouble _tmp0_;
 	gdouble _tmp1_;
-	gdouble _tmp2_;
+	gdouble _tmp2_ = 0.0;
 	gdouble _tmp3_ = 0.0;
-	gdouble _tmp4_ = 0.0;
-	_tmp0_ = (*self).bas;
-	_tmp1_ = a;
-	_tmp2_ = b;
-	_tmp3_ = g_random_double ();
-	_tmp4_ = pow ((gdouble) _tmp0_, _tmp1_ + (_tmp2_ * _tmp3_));
-	result = (gint64) _tmp4_;
+	_tmp0_ = (*self).min;
+	_tmp1_ = (*self).span;
+	_tmp2_ = g_random_double ();
+	_tmp3_ = exp (_tmp0_ + (_tmp1_ * _tmp2_));
+	result = (gint64) _tmp3_;
 	return result;
 }
 
@@ -731,24 +713,21 @@ static gint64 mathg_operate_sumup (mathgOperate *self, gint64* numa, int numa_le
 
 
 void mathg_operate_copy (const mathgOperate* self, mathgOperate* dest) {
-	guint _tmp0_;
+	gdouble _tmp0_;
 	gdouble _tmp1_;
-	gdouble _tmp2_;
-	gint _tmp3_;
-	const gchar* _tmp4_;
-	gchar* _tmp5_;
-	_tmp0_ = (*self).bas;
-	(*dest).bas = _tmp0_;
-	_tmp1_ = (*self).max;
-	(*dest).max = _tmp1_;
-	_tmp2_ = (*self).min;
-	(*dest).min = _tmp2_;
-	_tmp3_ = (*self).term;
-	(*dest).term = _tmp3_;
-	_tmp4_ = (*self).type;
-	_tmp5_ = g_strdup (_tmp4_);
+	gint _tmp2_;
+	const gchar* _tmp3_;
+	gchar* _tmp4_;
+	_tmp0_ = (*self).min;
+	(*dest).min = _tmp0_;
+	_tmp1_ = (*self).span;
+	(*dest).span = _tmp1_;
+	_tmp2_ = (*self).term;
+	(*dest).term = _tmp2_;
+	_tmp3_ = (*self).type;
+	_tmp4_ = g_strdup (_tmp3_);
 	_g_free0 ((*dest).type);
-	(*dest).type = _tmp5_;
+	(*dest).type = _tmp4_;
 }
 
 

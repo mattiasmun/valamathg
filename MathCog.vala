@@ -38,7 +38,7 @@ namespace mathg {
 		public MathCog(string[] args) {
 			nu = NumberUtils(args[0]);
 			pm = nu.ti("1000");
-			operation = Operate(nu.bas, nu.tl(args[1]), nu.tl(args[2]), args[3], nu.ti(args[4]));
+			operation = Operate(nu.tl(args[1]), nu.tl(args[2]), args[3], nu.ti(args[4]));
 			stra = new Elmnt[nu.ti(args[5]) > 1 ? nu.ti(args[5]): 1];
 			deviation = nu.td(args[6]);
 			generate();

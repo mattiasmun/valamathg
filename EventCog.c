@@ -74,9 +74,8 @@ struct _mathgNumberUtils {
 };
 
 struct _mathgOperate {
-	guint bas;
-	gdouble max;
 	gdouble min;
+	gdouble span;
 	gint term;
 	gchar* type;
 };

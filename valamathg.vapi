@@ -54,11 +54,10 @@ namespace mathg {
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct Operate {
-		public uint bas;
-		public double max;
 		public double min;
+		public double span;
 		public int term;
 		public string type;
-		public Operate (uint a, int64 b, int64 c, string d, int e);
+		public Operate (int64 a, int64 b, string c, int d);
 	}
 }
