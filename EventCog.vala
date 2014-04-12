@@ -57,7 +57,7 @@ namespace mathg {
 		}
 
 		bool is_enter() {
-			return kod == Key.KP_Enter || kod == Key.Return;
+			return kod == Key.KP_Enter || kod == Key.Return || kod == Key.space;
 		}
 
 		internal override bool key_press_event(EventKey event) {

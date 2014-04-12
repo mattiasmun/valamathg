@@ -1,6 +1,13 @@
-EXTRA_DIST = autogen.sh valamathg.vapi
+desktopdir = $(datadir)/applications
+desktop_in_files = valamathg.desktop.in
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
+
+EXTRA_DIST = \
+		$(desktop_in_files) \
+		autogen.sh \
+		valamathg.vapi
 AM_CPPFLAGS = $(VALAMATHG_CFLAGS)
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
 AM_CFLAGS = -lm
 AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
 
