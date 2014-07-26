@@ -168,7 +168,7 @@ static void mathg_event_cog_finalize (GObject* obj);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
-const gchar* MATHG_sa[4] = {"xx-large", "x-large", "large", "medium"};
+const gchar* MATHG_sa[2] = {"xx-large", "large"};
 
 mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1) {
 	mathgEventCog * self = NULL;
@@ -182,10 +182,10 @@ mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int a
 	_tmp0_ = (GtkGrid*) gtk_grid_new ();
 	g_object_ref_sink (_tmp0_);
 	g = _tmp0_;
-	_tmp1_ = g_new0 (GtkLabel*, 8 + 1);
+	_tmp1_ = g_new0 (GtkLabel*, 4 + 1);
 	self->priv->lb = (_vala_array_free (self->priv->lb, self->priv->lb_length1, (GDestroyNotify) g_object_unref), NULL);
 	self->priv->lb = _tmp1_;
-	self->priv->lb_length1 = 8;
+	self->priv->lb_length1 = 4;
 	self->priv->_lb_size_ = self->priv->lb_length1;
 	{
 		gint i = 0;
@@ -218,7 +218,7 @@ mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int a
 				}
 				_tmp2_ = FALSE;
 				_tmp5_ = i;
-				if (!(_tmp5_ < 8)) {
+				if (!(_tmp5_ < 4)) {
 					break;
 				}
 				_tmp6_ = self->priv->lb;
@@ -283,11 +283,11 @@ static void mathg_event_cog_caseixy (mathgEventCog* self, gint i) {
 	_tmp0_ = self->priv->mc;
 	_tmp1_ = _tmp0_.straind;
 	_tmp2_ = i;
-	j = (_tmp1_ + _tmp2_) - 3;
+	j = (_tmp1_ + _tmp2_) - 1;
 	_tmp4_ = self->priv->mc;
 	_tmp5_ = _tmp4_.straind;
 	_tmp6_ = i;
-	if ((_tmp5_ + _tmp6_) > 2) {
+	if ((_tmp5_ + _tmp6_) > 0) {
 		gint _tmp7_ = 0;
 		mathgMathCog _tmp8_ = {0};
 		mathgElmnt* _tmp9_ = NULL;
@@ -323,7 +323,7 @@ static void mathg_event_cog_caseixy (mathgEventCog* self, gint i) {
 		GtkLabel* _tmp26_ = NULL;
 		const gchar* _tmp27_ = NULL;
 		_tmp11_ = i;
-		_tmp12_ = abs (_tmp11_ - 3);
+		_tmp12_ = abs (_tmp11_ - 1);
 		_tmp13_ = MATHG_sa[_tmp12_];
 		_tmp14_ = string_to_string (_tmp13_);
 		_tmp15_ = g_strconcat ("<span size=\"", _tmp14_, "\">", NULL);
@@ -615,7 +615,7 @@ void mathg_event_cog_repaint (mathgEventCog* self) {
 				}
 				_tmp0_ = FALSE;
 				_tmp3_ = i;
-				if (!(_tmp3_ < 7)) {
+				if (!(_tmp3_ < 3)) {
 					break;
 				}
 				_tmp4_ = i;
@@ -625,7 +625,7 @@ void mathg_event_cog_repaint (mathgEventCog* self) {
 	}
 	_tmp5_ = self->priv->lb;
 	_tmp5__length1 = self->priv->lb_length1;
-	_tmp6_ = _tmp5_[7];
+	_tmp6_ = _tmp5_[3];
 	_tmp7_ = self->priv->mc;
 	_tmp8_ = _tmp7_.res;
 	gtk_label_set_text (_tmp6_, _tmp8_);

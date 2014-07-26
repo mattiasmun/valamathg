@@ -20,7 +20,7 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 using Gdk, Gtk;
 
 namespace mathg {
-	static const string[] sa = {"xx-large", "x-large", "large", "medium"};
+	static const string[] sa = {"xx-large", "large"};
 
 	public class EventCog: Viewport {
 		bool ctrl = false;
@@ -30,8 +30,8 @@ namespace mathg {
 
 		public EventCog(string[] args) {
 			Grid g = new Grid();
-			lb = new Label[8];
-			for(int i = 0; i < 8; i++) {
+			lb = new Label[4];
+			for(int i = 0; i < 4; i++) {
 				lb[i] = new Label(@"$i");
 				g.attach(lb[i], 1, i, 1, 1);
 			}
@@ -42,9 +42,9 @@ namespace mathg {
 		}
 
 		void caseixy(int i) {
-			int j = mc.straind + i - 3;
-			if(mc.straind + i > 2 && j < mc.stra.length) {
-				string s = @"<span size=\"$(sa[(i - 3).abs()])\">";
+			int j = mc.straind + i - 1;
+			if(mc.straind + i > 0 && j < mc.stra.length) {
+				string s = @"<span size=\"$(sa[(i - 1).abs()])\">";
 				s = @"$s$(mc.stra[j])</span>";
 				lb[i].set_markup(s);
 			} else {
@@ -90,10 +90,10 @@ namespace mathg {
 		}
 
 		public void repaint() {
-			for(int i = 0; i < 7; i++) {
+			for(int i = 0; i < 3; i++) {
 				caseixy(i);
 			}
-			lb[7].set_text(mc.res);
+			lb[3].set_text(mc.res);
 		}
 
 		internal override bool scroll_event(EventScroll event) {
