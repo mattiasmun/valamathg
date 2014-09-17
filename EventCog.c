@@ -168,7 +168,7 @@ static void mathg_event_cog_finalize (GObject* obj);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
-const gchar* MATHG_sa[2] = {"xx-large", "large"};
+const gchar* MATHG_sa[2] = {"size=\"xx-large\" weight=\"bold\"", "size=\"large\""};
 
 mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1) {
 	mathgEventCog * self = NULL;
@@ -326,7 +326,7 @@ static void mathg_event_cog_caseixy (mathgEventCog* self, gint i) {
 		_tmp12_ = abs (_tmp11_ - 1);
 		_tmp13_ = MATHG_sa[_tmp12_];
 		_tmp14_ = string_to_string (_tmp13_);
-		_tmp15_ = g_strconcat ("<span size=\"", _tmp14_, "\">", NULL);
+		_tmp15_ = g_strconcat ("<span ", _tmp14_, ">", NULL);
 		s = _tmp15_;
 		_tmp16_ = s;
 		_tmp17_ = string_to_string (_tmp16_);
@@ -352,11 +352,20 @@ static void mathg_event_cog_caseixy (mathgEventCog* self, gint i) {
 		gint _tmp28__length1 = 0;
 		gint _tmp29_ = 0;
 		GtkLabel* _tmp30_ = NULL;
+		const gchar* _tmp31_ = NULL;
+		const gchar* _tmp32_ = NULL;
+		gchar* _tmp33_ = NULL;
+		gchar* _tmp34_ = NULL;
 		_tmp28_ = self->priv->lb;
 		_tmp28__length1 = self->priv->lb_length1;
 		_tmp29_ = i;
 		_tmp30_ = _tmp28_[_tmp29_];
-		gtk_label_set_text (_tmp30_, "");
+		_tmp31_ = MATHG_sa[1];
+		_tmp32_ = string_to_string (_tmp31_);
+		_tmp33_ = g_strconcat ("<span ", _tmp32_, "></span>", NULL);
+		_tmp34_ = _tmp33_;
+		gtk_label_set_markup (_tmp30_, _tmp34_);
+		_g_free0 (_tmp34_);
 	}
 }
 

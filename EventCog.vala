@@ -20,7 +20,7 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 using Gdk, Gtk;
 
 namespace mathg {
-	static const string[] sa = {"xx-large", "large"};
+	static const string[] sa = {"size=\"xx-large\" weight=\"bold\"", "size=\"large\""};
 
 	public class EventCog: Viewport {
 		bool ctrl = false;
@@ -44,11 +44,11 @@ namespace mathg {
 		void caseixy(int i) {
 			int j = mc.straind + i - 1;
 			if(mc.straind + i > 0 && j < mc.stra.length) {
-				string s = @"<span size=\"$(sa[(i - 1).abs()])\">";
+				string s = @"<span $(sa[(i - 1).abs()])>";
 				s = @"$s$(mc.stra[j])</span>";
 				lb[i].set_markup(s);
 			} else {
-				lb[i].set_text("");
+				lb[i].set_markup(@"<span $(sa[1])></span>");
 			}
 		}
 

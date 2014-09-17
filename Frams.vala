@@ -29,7 +29,7 @@ public static void main(string[] args) {
 
 static void frame(Gtk.Window gw, string[] args) {
 	gw.set_title("valamathg");
-	gw.set_default_size(Screen.width(), 206);
+	gw.set_default_size(Screen.width(), 106);
 	gw.destroy.connect(main_quit);
 	EventCog ec = new EventCog(args);
 	gw.add(ec);
