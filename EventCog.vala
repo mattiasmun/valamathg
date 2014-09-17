@@ -20,7 +20,7 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 using Gdk, Gtk;
 
 namespace mathg {
-	static const string[] sa = {"size=\"xx-large\" weight=\"bold\"", "size=\"large\""};
+	static const string[] sa = {"font=\"40\"", "font=\"20\""};
 
 	public class EventCog: Viewport {
 		bool ctrl = false;
@@ -48,7 +48,7 @@ namespace mathg {
 				s = @"$s$(mc.stra[j])</span>";
 				lb[i].set_markup(s);
 			} else {
-				lb[i].set_markup(@"<span $(sa[1])></span>");
+				lb[i].set_markup(@"<span $(sa[1])> </span>");
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace mathg {
 			for(int i = 0; i < 3; i++) {
 				caseixy(i);
 			}
-			lb[3].set_text(mc.res);
+			lb[3].set_markup(@"<span $(sa[1])>$(mc.res)</span>");
 		}
 
 		internal override bool scroll_event(EventScroll event) {

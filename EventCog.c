@@ -168,7 +168,7 @@ static void mathg_event_cog_finalize (GObject* obj);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
-const gchar* MATHG_sa[2] = {"size=\"xx-large\" weight=\"bold\"", "size=\"large\""};
+const gchar* MATHG_sa[2] = {"font=\"40\"", "font=\"20\""};
 
 mathgEventCog* mathg_event_cog_construct (GType object_type, gchar** args, int args_length1) {
 	mathgEventCog * self = NULL;
@@ -362,7 +362,7 @@ static void mathg_event_cog_caseixy (mathgEventCog* self, gint i) {
 		_tmp30_ = _tmp28_[_tmp29_];
 		_tmp31_ = MATHG_sa[1];
 		_tmp32_ = string_to_string (_tmp31_);
-		_tmp33_ = g_strconcat ("<span ", _tmp32_, "></span>", NULL);
+		_tmp33_ = g_strconcat ("<span ", _tmp32_, "> </span>", NULL);
 		_tmp34_ = _tmp33_;
 		gtk_label_set_markup (_tmp30_, _tmp34_);
 		_g_free0 (_tmp34_);
@@ -603,8 +603,13 @@ void mathg_event_cog_repaint (mathgEventCog* self) {
 	GtkLabel** _tmp5_ = NULL;
 	gint _tmp5__length1 = 0;
 	GtkLabel* _tmp6_ = NULL;
-	mathgMathCog _tmp7_ = {0};
+	const gchar* _tmp7_ = NULL;
 	const gchar* _tmp8_ = NULL;
+	mathgMathCog _tmp9_ = {0};
+	const gchar* _tmp10_ = NULL;
+	const gchar* _tmp11_ = NULL;
+	gchar* _tmp12_ = NULL;
+	gchar* _tmp13_ = NULL;
 	g_return_if_fail (self != NULL);
 	{
 		gint i = 0;
@@ -635,9 +640,15 @@ void mathg_event_cog_repaint (mathgEventCog* self) {
 	_tmp5_ = self->priv->lb;
 	_tmp5__length1 = self->priv->lb_length1;
 	_tmp6_ = _tmp5_[3];
-	_tmp7_ = self->priv->mc;
-	_tmp8_ = _tmp7_.res;
-	gtk_label_set_text (_tmp6_, _tmp8_);
+	_tmp7_ = MATHG_sa[1];
+	_tmp8_ = string_to_string (_tmp7_);
+	_tmp9_ = self->priv->mc;
+	_tmp10_ = _tmp9_.res;
+	_tmp11_ = string_to_string (_tmp10_);
+	_tmp12_ = g_strconcat ("<span ", _tmp8_, ">", _tmp11_, "</span>", NULL);
+	_tmp13_ = _tmp12_;
+	gtk_label_set_markup (_tmp6_, _tmp13_);
+	_g_free0 (_tmp13_);
 }
 
 

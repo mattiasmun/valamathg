@@ -162,7 +162,7 @@ void frame (GtkWindow* gw, gchar** args, int args_length1) {
 	gtk_window_set_title (_tmp0_, "valamathg");
 	_tmp1_ = gw;
 	_tmp2_ = gdk_screen_width ();
-	gtk_window_set_default_size (_tmp1_, _tmp2_, 106);
+	gtk_window_set_default_size (_tmp1_, _tmp2_, 0);
 	_tmp3_ = gw;
 	g_signal_connect ((GtkWidget*) _tmp3_, "destroy", (GCallback) _gtk_main_quit_gtk_widget_destroy, NULL);
 	_tmp4_ = args;
