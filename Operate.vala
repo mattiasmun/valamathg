@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace mathg {
-	static const string types = "+-x/";
+	const string types = "+-x/";
 
 	public struct Operate {
 		double min;
@@ -26,7 +26,7 @@ namespace mathg {
 		int term;
 		string type;
 
-		public Operate(int64 a, int64 b, string c, int d) {
+		public Operate(double a, double b, string c, int d) {
 			min = Math.log(a);
 			span = Math.log(b) - min;
 			type = checktype(c);
@@ -41,7 +41,7 @@ namespace mathg {
 		}
 
 		internal void oper(MathCog mc, int i) {
-			var ia = new int64[term], tmpa = new int64[term];
+			var ia = new double[term], tmpa = new double[term];
 			for(int j = 0; j < term; j++) {
 				tmpa[j] = ia[j] = rand();
 			}
@@ -61,19 +61,19 @@ namespace mathg {
 					oth = j + 1;
 				}
 			}
-			string q = @"$(i + 1))$(mc.nu.ts(ia[0]))";
+			string q = @"$(i + 1))$(ia[0])";
 			for(int j = 1; j < term; j++) {
-				q += @"$(ca[j - 1])$(mc.nu.ts(ia[j]))";
+				q += @"$(ca[j - 1])$(ia[j])";
 			}
 			mc.stra[i] = Elmnt(sumup(tmpa, ca), @"$q=");
 		}
 
-		int64 rand() {
-			return (int64) Math.exp(min + span * Random.next_double());
+		double rand() {
+			return Math.exp(min + span * Random.next_double());
 		}
 
-		int64 sumup(int64[] numa, char[] typea) {
-			int64 ans = numa[0];
+		double sumup(double[] numa, char[] typea) {
+			double ans = numa[0];
 			for(int j = 0; j < typea.length; j++) {
 				if(typea[j] == '+') {
 					ans += numa[j + 1];

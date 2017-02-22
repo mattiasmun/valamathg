@@ -18,13 +18,13 @@ You should have received a copy of the GNU General Public License
 along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace mathg {
-	static const string digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+	const string digits = "0123456789abcdefghijklmnopqrstuvwxyz";
 
 	public struct MathCog {
 		string ch;
-		uint64 cor;
+		double cor;
 		double deviation;
-		uint64 err;
+		double err;
 		bool isenter;
 		NumberUtils nu;
 		Operate operation;
@@ -38,7 +38,7 @@ namespace mathg {
 		public MathCog(string[] args) {
 			nu = NumberUtils(args[0]);
 			pm = nu.ti("1000");
-			operation = Operate(nu.tl(args[1]), nu.tl(args[2]), args[3], nu.ti(args[4]));
+			operation = Operate(nu.td(args[1]), nu.td(args[2]), args[3], nu.ti(args[4]));
 			stra = new Elmnt[nu.ti(args[5]) > 1 ? nu.ti(args[5]): 1];
 			deviation = nu.td(args[6]);
 			generate();
@@ -49,16 +49,16 @@ namespace mathg {
 			stra[straind].guess = s.substring(0, s.length - 1);
 		}
 
-		void close(int64 ans) {
-			int64 hyp = nu.tl(stra[straind].guess);
-			uint64 d = (hyp - ans).abs();
+		void close(double ans) {
+			double hyp = nu.td(stra[straind].guess);
+			double d = (hyp - ans).abs();
 			cor += ans.abs();
 			err += d;
-			stra[straind].result = @" ans=$(nu.ts(ans)) Δ=$(nu.uts(d)) t=";
+			stra[straind].result = @" ans=$(ans) Δ=$(d) t=";
 			stra[straind].result += @"$(problem)ms";
 			res = "tot Δ‰=";
-			res += nu.uts((uint64)((double)err / cor * pm));
-			res += @" Δ=$(nu.uts(err)) t=$(total)ms";
+			res += @"$(err / cor * pm)";
+			res += @" Δ=$(err) t=$(total)ms";
 			straind += straind < stra.length - 1 ? 1: 0;
 		}
 
@@ -81,8 +81,8 @@ namespace mathg {
 			}
 			double d = nu.td(s);
 			stra[straind].guess = s;
-			int64 ans = stra[straind].answer;
-			if((int64)d == ans || Math.fabs(d / ans - 1) <= deviation || isenter) {
+			double ans = stra[straind].answer;
+			if(Math.fabs(d / ans - 1) <= deviation || isenter) {
 				close(ans);
 			}
 			isenter = false;

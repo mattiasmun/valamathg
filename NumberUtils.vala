@@ -27,45 +27,13 @@ namespace mathg {
 		}
 
 		internal double td(string a) {
-			var sb = new StringBuilder(a);
-			int i = sb.str.index_of_char('.');
-			if(i < 0) {
-				i = (int)sb.len;
-			} else {
-				sb.erase(i, 1);
-			}
-			double d = Math.pow(bas, sb.len - i);
-			return tl(sb.str) / d;
+			return ti((a+".").split(("."))[0]);
 		}
 
 		internal int ti(string a) {
-			return (int)tl(a);
-		}
-
-		internal int64 tl(string a) {
-			return strtoll(a, null, bas);
-		}
-
-		internal string ts(int64 a) {
-			bool neg = a < 0;
-			string s = uts(a.abs());
-			return neg ? @"-$s": s;
-		}
-
-		internal string uts(uint64 a) {
-			if(bas == 10 || a < 2) {
-				return @"$a";
-			}
-			var sb = new StringBuilder.sized(64);
-			uint rest = 0;
-			for(; a > 0; a /= bas) {
-				rest = (uint)(a % bas);
-				sb.prepend_c(digits[rest]);
-			}
-			return sb.str;
+			return (int)strtoll(a, null, bas);
 		}
 	}
-
 	[CCode(cname = "g_ascii_strtoll")]
 	static extern int64 strtoll(string nptr, out char* endptr, uint _base);
 }

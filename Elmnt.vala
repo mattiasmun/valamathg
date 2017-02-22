@@ -19,12 +19,12 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace mathg {
 	public struct Elmnt {
-		int64 answer;
+		double answer;
 		string guess;
 		string question;
 		string result;
 
-		public Elmnt(int64 a, string s) {
+		public Elmnt(double a, string s) {
 			answer = a;
 			guess = "";
 			question = s;

@@ -20,7 +20,7 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 using Gdk, Gtk;
 
 namespace mathg {
-	static const string[] sa = {"font=\"40\"", "font=\"20\""};
+	const string[] sa = {"font=\"40\"", "font=\"20\""};
 
 	public class EventCog: Viewport {
 		bool ctrl = false;
