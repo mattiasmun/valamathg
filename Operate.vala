@@ -61,15 +61,15 @@ namespace mathg {
 					oth = j + 1;
 				}
 			}
-			string q = @"$(i + 1))$(ia[0])";
+			string q = @"$(i + 1))$(mc.nu.ts(ia[0]))";
 			for(int j = 1; j < term; j++) {
-				q += @"$(ca[j - 1])$(ia[j])";
+				q += @"$(ca[j - 1])$(mc.nu.ts(ia[j]))";
 			}
 			mc.stra[i] = Elmnt(sumup(tmpa, ca), @"$q=");
 		}
 
 		double rand() {
-			return Math.exp(min + span * Random.next_double());
+			return (int)Math.exp(min + span * Random.next_double());
 		}
 
 		double sumup(double[] numa, char[] typea) {

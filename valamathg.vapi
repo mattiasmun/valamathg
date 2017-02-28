@@ -49,7 +49,7 @@ namespace mathg {
 	}
 	[CCode (cheader_filename = "valamathg.h")]
 	public struct NumberUtils {
-		public uint bas;
+		public int bas;
 		public NumberUtils (string s);
 	}
 	[CCode (cheader_filename = "valamathg.h")]

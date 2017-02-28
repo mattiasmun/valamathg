@@ -19,10 +19,9 @@ along with valamathg.  If not, see <http://www.gnu.org/licenses/>.*/
 
 namespace mathg {
 	public struct NumberUtils {
-		uint bas;
+		int bas;
 
 		public NumberUtils(string s) {
-			bas = 10;
 			bas = ti(s);
 		}
 
@@ -32,6 +31,21 @@ namespace mathg {
 
 		internal int ti(string a) {
 			return (int)strtoll(a, null, bas);
+		}
+		
+		internal string ts(double d) {
+			string s = "", t = "";
+			int i = (int)d, j = 0;
+			if(i < 0) {
+				t = "-";
+				i = -i;
+			}
+			while(i >= bas){
+				j = i % bas;
+				i /= bas;
+				s = @"$j$s";
+			}
+			return @"$t$i$s";
 		}
 	}
 	[CCode(cname = "g_ascii_strtoll")]

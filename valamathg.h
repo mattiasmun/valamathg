@@ -78,7 +78,7 @@ struct _mathgConfFile {
 };
 
 struct _mathgNumberUtils {
-	guint bas;
+	gint bas;
 };
 
 struct _mathgMathCog {

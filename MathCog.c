@@ -45,7 +45,7 @@ typedef struct _mathgMathCog mathgMathCog;
 #define _g_free0(var) (var = (g_free (var), NULL))
 
 struct _mathgNumberUtils {
-	guint bas;
+	gint bas;
 };
 
 struct _mathgOperate {
@@ -120,6 +120,7 @@ void mathg_operate_init (mathgOperate *self, gdouble a, gdouble b, const gchar* 
 void mathg_math_cog_generate (mathgMathCog *self);
 void mathg_math_cog_bsp (mathgMathCog *self);
 static void mathg_math_cog_close (mathgMathCog *self, gdouble ans);
+gchar* mathg_number_utils_ts (mathgNumberUtils *self, gdouble d);
 gchar* mathg_my_timer_to_string (mathgMyTimer *self);
 void mathg_my_timer_init (mathgMyTimer *self, gboolean b);
 void mathg_operate_oper (mathgOperate *self, mathgMathCog* mc, gint i);
@@ -357,6 +358,14 @@ void mathg_math_cog_bsp (mathgMathCog *self) {
 }
 
 
+static const gchar* string_to_string (const gchar* self) {
+	const gchar* result = NULL;
+	g_return_val_if_fail (self != NULL, NULL);
+	result = self;
+	return result;
+}
+
+
 static gchar* double_to_string (gdouble self) {
 	gchar* result = NULL;
 	gchar* _tmp0_ = NULL;
@@ -400,44 +409,47 @@ static void mathg_math_cog_close (mathgMathCog *self, gdouble ans) {
 	gdouble _tmp15_ = 0.0;
 	gchar* _tmp16_ = NULL;
 	gchar* _tmp17_ = NULL;
-	gdouble _tmp18_ = 0.0;
-	gchar* _tmp19_ = NULL;
+	const gchar* _tmp18_ = NULL;
+	gdouble _tmp19_ = 0.0;
 	gchar* _tmp20_ = NULL;
 	gchar* _tmp21_ = NULL;
-	mathgElmnt* _tmp22_ = NULL;
-	gint _tmp22__length1 = 0;
-	gint _tmp23_ = 0;
+	const gchar* _tmp22_ = NULL;
+	gchar* _tmp23_ = NULL;
 	mathgElmnt* _tmp24_ = NULL;
 	gint _tmp24__length1 = 0;
 	gint _tmp25_ = 0;
-	const gchar* _tmp26_ = NULL;
-	gchar* _tmp27_ = NULL;
-	gchar* _tmp28_ = NULL;
+	mathgElmnt* _tmp26_ = NULL;
+	gint _tmp26__length1 = 0;
+	gint _tmp27_ = 0;
+	const gchar* _tmp28_ = NULL;
 	gchar* _tmp29_ = NULL;
 	gchar* _tmp30_ = NULL;
 	gchar* _tmp31_ = NULL;
 	gchar* _tmp32_ = NULL;
-	const gchar* _tmp33_ = NULL;
-	gdouble _tmp34_ = 0.0;
-	gdouble _tmp35_ = 0.0;
-	gint _tmp36_ = 0;
-	gchar* _tmp37_ = NULL;
-	gchar* _tmp38_ = NULL;
+	gchar* _tmp33_ = NULL;
+	gchar* _tmp34_ = NULL;
+	const gchar* _tmp35_ = NULL;
+	gdouble _tmp36_ = 0.0;
+	gdouble _tmp37_ = 0.0;
+	gint _tmp38_ = 0;
 	gchar* _tmp39_ = NULL;
-	const gchar* _tmp40_ = NULL;
-	gdouble _tmp41_ = 0.0;
-	gchar* _tmp42_ = NULL;
-	gchar* _tmp43_ = NULL;
+	gchar* _tmp40_ = NULL;
+	gchar* _tmp41_ = NULL;
+	const gchar* _tmp42_ = NULL;
+	gdouble _tmp43_ = 0.0;
 	gchar* _tmp44_ = NULL;
 	gchar* _tmp45_ = NULL;
-	gchar* _tmp46_ = NULL;
+	const gchar* _tmp46_ = NULL;
 	gchar* _tmp47_ = NULL;
 	gchar* _tmp48_ = NULL;
-	gint _tmp49_ = 0;
-	gint _tmp50_ = 0;
-	mathgElmnt* _tmp51_ = NULL;
-	gint _tmp51__length1 = 0;
+	gchar* _tmp49_ = NULL;
+	gchar* _tmp50_ = NULL;
+	gchar* _tmp51_ = NULL;
 	gint _tmp52_ = 0;
+	gint _tmp53_ = 0;
+	mathgElmnt* _tmp54_ = NULL;
+	gint _tmp54__length1 = 0;
+	gint _tmp55_ = 0;
 	_tmp0_ = (*self).stra;
 	_tmp0__length1 = (*self).stra_length1;
 	_tmp1_ = (*self).straind;
@@ -460,69 +472,72 @@ static void mathg_math_cog_close (mathgMathCog *self, gdouble ans) {
 	_tmp13__length1 = (*self).stra_length1;
 	_tmp14_ = (*self).straind;
 	_tmp15_ = ans;
-	_tmp16_ = double_to_string (_tmp15_);
+	_tmp16_ = mathg_number_utils_ts (&(*self).nu, _tmp15_);
 	_tmp17_ = _tmp16_;
-	_tmp18_ = d;
-	_tmp19_ = double_to_string (_tmp18_);
-	_tmp20_ = _tmp19_;
-	_tmp21_ = g_strconcat (" ans=", _tmp17_, " Δ=", _tmp20_, " t=", NULL);
+	_tmp18_ = string_to_string (_tmp17_);
+	_tmp19_ = d;
+	_tmp20_ = mathg_number_utils_ts (&(*self).nu, _tmp19_);
+	_tmp21_ = _tmp20_;
+	_tmp22_ = string_to_string (_tmp21_);
+	_tmp23_ = g_strconcat (" ans=", _tmp18_, " Δ=", _tmp22_, " t=", NULL);
 	_g_free0 (_tmp13_[_tmp14_].result);
-	_tmp13_[_tmp14_].result = _tmp21_;
-	_g_free0 (_tmp20_);
+	_tmp13_[_tmp14_].result = _tmp23_;
+	_g_free0 (_tmp21_);
 	_g_free0 (_tmp17_);
-	_tmp22_ = (*self).stra;
-	_tmp22__length1 = (*self).stra_length1;
-	_tmp23_ = (*self).straind;
 	_tmp24_ = (*self).stra;
 	_tmp24__length1 = (*self).stra_length1;
 	_tmp25_ = (*self).straind;
-	_tmp26_ = _tmp24_[_tmp25_].result;
-	_tmp27_ = mathg_my_timer_to_string (&(*self).problem);
-	_tmp28_ = _tmp27_;
-	_tmp29_ = g_strconcat (_tmp28_, "ms", NULL);
+	_tmp26_ = (*self).stra;
+	_tmp26__length1 = (*self).stra_length1;
+	_tmp27_ = (*self).straind;
+	_tmp28_ = _tmp26_[_tmp27_].result;
+	_tmp29_ = mathg_my_timer_to_string (&(*self).problem);
 	_tmp30_ = _tmp29_;
-	_tmp31_ = g_strconcat (_tmp26_, _tmp30_, NULL);
-	_g_free0 (_tmp24_[_tmp25_].result);
-	_tmp24_[_tmp25_].result = _tmp31_;
+	_tmp31_ = g_strconcat (_tmp30_, "ms", NULL);
+	_tmp32_ = _tmp31_;
+	_tmp33_ = g_strconcat (_tmp28_, _tmp32_, NULL);
+	_g_free0 (_tmp26_[_tmp27_].result);
+	_tmp26_[_tmp27_].result = _tmp33_;
+	_g_free0 (_tmp32_);
 	_g_free0 (_tmp30_);
-	_g_free0 (_tmp28_);
-	_tmp32_ = g_strdup ("tot Δ‰=");
+	_tmp34_ = g_strdup ("tot Δ‰=");
 	_g_free0 ((*self).res);
-	(*self).res = _tmp32_;
-	_tmp33_ = (*self).res;
-	_tmp34_ = (*self).err;
-	_tmp35_ = (*self).cor;
-	_tmp36_ = (*self).pm;
-	_tmp37_ = double_to_string ((_tmp34_ / _tmp35_) * _tmp36_);
-	_tmp38_ = _tmp37_;
-	_tmp39_ = g_strconcat (_tmp33_, _tmp38_, NULL);
+	(*self).res = _tmp34_;
+	_tmp35_ = (*self).res;
+	_tmp36_ = (*self).err;
+	_tmp37_ = (*self).cor;
+	_tmp38_ = (*self).pm;
+	_tmp39_ = double_to_string ((_tmp36_ / _tmp37_) * _tmp38_);
+	_tmp40_ = _tmp39_;
+	_tmp41_ = g_strconcat (_tmp35_, _tmp40_, NULL);
 	_g_free0 ((*self).res);
-	(*self).res = _tmp39_;
-	_g_free0 (_tmp38_);
-	_tmp40_ = (*self).res;
-	_tmp41_ = (*self).err;
-	_tmp42_ = double_to_string (_tmp41_);
-	_tmp43_ = _tmp42_;
-	_tmp44_ = mathg_my_timer_to_string (&(*self).total);
+	(*self).res = _tmp41_;
+	_g_free0 (_tmp40_);
+	_tmp42_ = (*self).res;
+	_tmp43_ = (*self).err;
+	_tmp44_ = mathg_number_utils_ts (&(*self).nu, _tmp43_);
 	_tmp45_ = _tmp44_;
-	_tmp46_ = g_strconcat (" Δ=", _tmp43_, " t=", _tmp45_, "ms", NULL);
-	_tmp47_ = _tmp46_;
-	_tmp48_ = g_strconcat (_tmp40_, _tmp47_, NULL);
+	_tmp46_ = string_to_string (_tmp45_);
+	_tmp47_ = mathg_my_timer_to_string (&(*self).total);
+	_tmp48_ = _tmp47_;
+	_tmp49_ = g_strconcat (" Δ=", _tmp46_, " t=", _tmp48_, "ms", NULL);
+	_tmp50_ = _tmp49_;
+	_tmp51_ = g_strconcat (_tmp42_, _tmp50_, NULL);
 	_g_free0 ((*self).res);
-	(*self).res = _tmp48_;
-	_g_free0 (_tmp47_);
+	(*self).res = _tmp51_;
+	_g_free0 (_tmp50_);
+	_g_free0 (_tmp48_);
 	_g_free0 (_tmp45_);
-	_g_free0 (_tmp43_);
-	_tmp50_ = (*self).straind;
-	_tmp51_ = (*self).stra;
-	_tmp51__length1 = (*self).stra_length1;
-	if (_tmp50_ < (_tmp51__length1 - 1)) {
-		_tmp49_ = 1;
+	_tmp53_ = (*self).straind;
+	_tmp54_ = (*self).stra;
+	_tmp54__length1 = (*self).stra_length1;
+	if (_tmp53_ < (_tmp54__length1 - 1)) {
+		_tmp52_ = 1;
 	} else {
-		_tmp49_ = 0;
+		_tmp52_ = 0;
 	}
-	_tmp52_ = (*self).straind;
-	(*self).straind = _tmp52_ + _tmp49_;
+	_tmp55_ = (*self).straind;
+	(*self).straind = _tmp55_ + _tmp52_;
 }
 
 
@@ -652,7 +667,7 @@ void mathg_math_cog_put (mathgMathCog *self) {
 		_g_free0 (_tmp6_);
 	} else {
 		mathgNumberUtils _tmp15_ = {0};
-		guint _tmp16_ = 0U;
+		gint _tmp16_ = 0;
 		gchar* _tmp17_ = NULL;
 		gchar* _tmp18_ = NULL;
 		const gchar* _tmp19_ = NULL;

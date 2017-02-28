@@ -70,7 +70,7 @@ struct _mathgEventCogClass {
 };
 
 struct _mathgNumberUtils {
-	guint bas;
+	gint bas;
 };
 
 struct _mathgOperate {

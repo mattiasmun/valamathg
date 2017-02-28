@@ -33,7 +33,7 @@ typedef struct _mathgNumberUtils mathgNumberUtils;
 #define _g_free0(var) (var = (g_free (var), NULL))
 
 struct _mathgNumberUtils {
-	guint bas;
+	gint bas;
 };
 
 
@@ -45,6 +45,7 @@ void mathg_number_utils_init (mathgNumberUtils *self, const gchar* s);
 gint mathg_number_utils_ti (mathgNumberUtils *self, const gchar* a);
 gdouble mathg_number_utils_td (mathgNumberUtils *self, const gchar* a);
 gint64 g_ascii_strtoll (const gchar* nptr, gchar** endptr, guint _base);
+gchar* mathg_number_utils_ts (mathgNumberUtils *self, gdouble d);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static gint _vala_array_length (gpointer array);
@@ -55,10 +56,9 @@ void mathg_number_utils_init (mathgNumberUtils *self, const gchar* s) {
 	gint _tmp1_ = 0;
 	g_return_if_fail (s != NULL);
 	memset (self, 0, sizeof (mathgNumberUtils));
-	(*self).bas = (guint) 10;
 	_tmp0_ = s;
 	_tmp1_ = mathg_number_utils_ti (&(*self), _tmp0_);
-	(*self).bas = (guint) _tmp1_;
+	(*self).bas = _tmp1_;
 }
 
 
@@ -94,13 +94,108 @@ gdouble mathg_number_utils_td (mathgNumberUtils *self, const gchar* a) {
 gint mathg_number_utils_ti (mathgNumberUtils *self, const gchar* a) {
 	gint result = 0;
 	const gchar* _tmp0_ = NULL;
-	guint _tmp1_ = 0U;
+	gint _tmp1_ = 0;
 	gint64 _tmp2_ = 0LL;
 	g_return_val_if_fail (a != NULL, 0);
 	_tmp0_ = a;
 	_tmp1_ = (*self).bas;
-	_tmp2_ = g_ascii_strtoll (_tmp0_, NULL, _tmp1_);
+	_tmp2_ = g_ascii_strtoll (_tmp0_, NULL, (guint) _tmp1_);
 	result = (gint) _tmp2_;
+	return result;
+}
+
+
+static const gchar* string_to_string (const gchar* self) {
+	const gchar* result = NULL;
+	g_return_val_if_fail (self != NULL, NULL);
+	result = self;
+	return result;
+}
+
+
+gchar* mathg_number_utils_ts (mathgNumberUtils *self, gdouble d) {
+	gchar* result = NULL;
+	gchar* s = NULL;
+	gchar* _tmp0_ = NULL;
+	gchar* t = NULL;
+	gchar* _tmp1_ = NULL;
+	gint i = 0;
+	gdouble _tmp2_ = 0.0;
+	gint j = 0;
+	gint _tmp3_ = 0;
+	const gchar* _tmp18_ = NULL;
+	const gchar* _tmp19_ = NULL;
+	gint _tmp20_ = 0;
+	gchar* _tmp21_ = NULL;
+	gchar* _tmp22_ = NULL;
+	const gchar* _tmp23_ = NULL;
+	const gchar* _tmp24_ = NULL;
+	gchar* _tmp25_ = NULL;
+	gchar* _tmp26_ = NULL;
+	_tmp0_ = g_strdup ("");
+	s = _tmp0_;
+	_tmp1_ = g_strdup ("");
+	t = _tmp1_;
+	_tmp2_ = d;
+	i = (gint) _tmp2_;
+	j = 0;
+	_tmp3_ = i;
+	if (_tmp3_ < 0) {
+		gchar* _tmp4_ = NULL;
+		gint _tmp5_ = 0;
+		_tmp4_ = g_strdup ("-");
+		_g_free0 (t);
+		t = _tmp4_;
+		_tmp5_ = i;
+		i = -_tmp5_;
+	}
+	while (TRUE) {
+		gint _tmp6_ = 0;
+		gint _tmp7_ = 0;
+		gint _tmp8_ = 0;
+		gint _tmp9_ = 0;
+		gint _tmp10_ = 0;
+		gint _tmp11_ = 0;
+		gint _tmp12_ = 0;
+		gchar* _tmp13_ = NULL;
+		gchar* _tmp14_ = NULL;
+		const gchar* _tmp15_ = NULL;
+		const gchar* _tmp16_ = NULL;
+		gchar* _tmp17_ = NULL;
+		_tmp6_ = i;
+		_tmp7_ = (*self).bas;
+		if (!(_tmp6_ >= _tmp7_)) {
+			break;
+		}
+		_tmp8_ = i;
+		_tmp9_ = (*self).bas;
+		j = _tmp8_ % _tmp9_;
+		_tmp10_ = i;
+		_tmp11_ = (*self).bas;
+		i = _tmp10_ / _tmp11_;
+		_tmp12_ = j;
+		_tmp13_ = g_strdup_printf ("%i", _tmp12_);
+		_tmp14_ = _tmp13_;
+		_tmp15_ = s;
+		_tmp16_ = string_to_string (_tmp15_);
+		_tmp17_ = g_strconcat (_tmp14_, _tmp16_, NULL);
+		_g_free0 (s);
+		s = _tmp17_;
+		_g_free0 (_tmp14_);
+	}
+	_tmp18_ = t;
+	_tmp19_ = string_to_string (_tmp18_);
+	_tmp20_ = i;
+	_tmp21_ = g_strdup_printf ("%i", _tmp20_);
+	_tmp22_ = _tmp21_;
+	_tmp23_ = s;
+	_tmp24_ = string_to_string (_tmp23_);
+	_tmp25_ = g_strconcat (_tmp19_, _tmp22_, _tmp24_, NULL);
+	_tmp26_ = _tmp25_;
+	_g_free0 (_tmp22_);
+	result = _tmp26_;
+	_g_free0 (t);
+	_g_free0 (s);
 	return result;
 }
 

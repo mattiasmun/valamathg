@@ -54,11 +54,11 @@ namespace mathg {
 			double d = (hyp - ans).abs();
 			cor += ans.abs();
 			err += d;
-			stra[straind].result = @" ans=$(ans) Δ=$(d) t=";
+			stra[straind].result = @" ans=$(nu.ts(ans)) Δ=$(nu.ts(d)) t=";
 			stra[straind].result += @"$(problem)ms";
 			res = "tot Δ‰=";
 			res += @"$(err / cor * pm)";
-			res += @" Δ=$(err) t=$(total)ms";
+			res += @" Δ=$(nu.ts(err)) t=$(total)ms";
 			straind += straind < stra.length - 1 ? 1: 0;
 		}
 
