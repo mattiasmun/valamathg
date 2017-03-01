@@ -26,7 +26,7 @@ namespace mathg {
 		}
 
 		internal double td(string a) {
-			return ti((a+".").split(("."))[0]);
+			return ti(a.split(".")[0]);
 		}
 
 		internal int ti(string a) {
@@ -43,9 +43,9 @@ namespace mathg {
 			while(i >= bas){
 				j = i % bas;
 				i /= bas;
-				s = @"$j$s";
+				s = @"$(digits[j])$s";
 			}
-			return @"$t$i$s";
+			return @"$t$(digits[i])$s";
 		}
 	}
 	[CCode(cname = "g_ascii_strtoll")]
